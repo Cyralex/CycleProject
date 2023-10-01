@@ -3,11 +3,12 @@ const express = require('express');
 const app = express(); 
 const port = 3000; 
 
+// test server connection
 app.get('/', (req, res) => {
     res.send('Hello World!');
   });
 
-
+// bind and listen to connections 
   app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
   });
@@ -21,7 +22,7 @@ app.get('/', (req, res) => {
   // query test database 
   app.get('/data', async (req, res) => {
     try {
-      const data = await db.any('SELECT * FROM test');
+      const data = await db.any('SELECT "routeJson" FROM routes');
       res.json(data);
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -29,7 +30,5 @@ app.get('/', (req, res) => {
     }
   });
 
-  app.listen(port, () => {
-    console.log(`Server running at http://localhost:${port}`);
-  });
+  
   
