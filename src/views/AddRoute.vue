@@ -124,6 +124,9 @@ export default {
           const gpxFile = new DOMParser().parseFromString(text, "text/xml");
           const converted = tj.gpx(gpxFile);
           this.newRoute = converted; //<-- place converted json into data object
+          console.log(converted.features[0].geometry.coordinates[0])
+          console.log(converted.features[0].geometry.coordinates.pop())
+          
           return converted;
         };
         reader.readAsText(selectedFile);
