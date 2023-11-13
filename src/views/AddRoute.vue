@@ -12,7 +12,7 @@
           v-model="routeName"
           required
         ></v-text-field>
-      <v-text-field
+        <v-text-field
           label="Route Length (miles)"
           prepend-icon="mdi-road"
           class="routeLength"
@@ -23,10 +23,18 @@
           required
         ></v-text-field>
         <v-container class="filter">
-        <v-select label="Select Terrain:" v-model="terrain" :items="['Paved', 'Gravel', 'Dirt']"> 
-        </v-select>
-        <v-select label="Select Difficulty: " v-model="difficulty" :items="['Beginner', 'Intermediate', 'Expert']"> 
-        </v-select>
+          <v-select
+            label="Select Terrain:"
+            v-model="terrain"
+            :items="['Paved', 'Gravel', 'Dirt']"
+          >
+          </v-select>
+          <v-select
+            label="Select Difficulty: "
+            v-model="difficulty"
+            :items="['Beginner', 'Intermediate', 'Expert']"
+          >
+          </v-select>
         </v-container>
         <v-textarea
           label="Route Description"
@@ -50,8 +58,6 @@
       </v-container>
     </v-form>
 
-
-    
     <v-container class="routeList">
       <h2>Routes:</h2>
       <v-container class="route" :key="r.name" v-for="r in routes">
@@ -77,6 +83,7 @@ export default {
       difficulty: "",
       terrain: "",
       routeDesc: "",
+      elevation: 0,
       //
       routes: null,
     };
@@ -98,7 +105,7 @@ export default {
       try {
         let response = await fetch("http://localhost:3000/v1/geo"); //eventually change to env variable
         response = await response.json();
-        console.log(response)
+        console.log(response);
         this.routes = response.routes.map((r) => {
           return {
             ...r,
@@ -124,9 +131,49 @@ export default {
           const gpxFile = new DOMParser().parseFromString(text, "text/xml");
           const converted = tj.gpx(gpxFile);
           this.newRoute = converted; //<-- place converted json into data object
-          console.log(converted.features[0].geometry.coordinates[0])
-          console.log(converted.features[0].geometry.coordinates.pop())
+
+          const startCoords = converted.features[0].geometry.coordinates[0]
+          const long = startCoords[0]
+          const lat = startCoords[1]
+          console.log('long', long, 'lat', lat)
+          let startElevation =  await fetch(`https://api.open-elevation.com/api/v1/lookup?locations=${lat},${long}`);
+          startElevation = await startElevation.json()
+          startElevation = startElevation.results[0].elevation
+          console.log('start elev', startElevation)
           
+          
+          const coords = converted.features[0].geometry.coordinates
+          let locations = []
+          for(let i in coords){
+            locations[i] = {
+              latitude: coords[i][1],
+              longitude: coords[i][0]
+            }
+          }
+          console.log(locations)
+          let res = await fetch(
+            "https://api.open-elevation.com/api/v1/lookup",
+            {
+              method: "POST",
+              headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+              },
+              // body: '{\n\t"locations":\n\t[\n\t\t{\n\t\t\t"latitude": 10,\n\t\t\t"longitude": 10\n\t\t},\n\t\t{\n\t\t\t"latitude":20,\n\t\t\t"longitude": 20\n\t\t},\n\t\t{\n\t\t\t"latitude":41.161758,\n\t\t\t"longitude":-8.583933\n\t\t}\n\t]\n\n}',
+              body: JSON.stringify({
+                 locations
+              }),
+            }
+          );
+          res = await res.json()
+          for(let r in res.results){
+            if(this.elevation < res.results[r].elevation ){
+              this.elevation = res.results[r].elevation
+            }
+          }
+
+          this.elevation = this.elevation - startElevation
+          console.log(this.elevation)
           return converted;
         };
         reader.readAsText(selectedFile);
@@ -134,23 +181,14 @@ export default {
     },
     async submit() {
       try {
-          
-          const response = await this.postRoute(
-            this.newRoute,
-            this.routeName,
-            this.gpx,
-            this.difficulty,
-            this.routeLength,
-            this.terrain,
-            this.routeDesc
-          );
-          if (response && response.message === "success!") {
-            //have backend return response object with code?
-            await this.fetchRoutes();
-          }
-        } catch (error) {
-          console.log("error", error);
+        const response = await this.postRoute()
+        if (response && response.message === "success!") {
+          //have backend return response object with code?
+          await this.fetchRoutes();
         }
+      } catch (error) {
+        console.log("error", error);
+      }
     },
     async postRoute() {
       let response = await fetch(`http://localhost:3000/v1/geo/`, {
@@ -166,8 +204,8 @@ export default {
           length: this.routeLength,
           terrain: this.terrain,
           difficulty: this.difficulty,
-          desc: this.routeDesc
-
+          desc: this.routeDesc,
+          elevation: this.elevation
         }),
       });
       response = await response.json();
@@ -230,12 +268,9 @@ button.button {
   flex-direction: column;
 }
 
-@media (max-width: 600px)
-{ 
-  .input
-  { 
+@media (max-width: 600px) {
+  .input {
     width: 100%;
   }
-
 }
 </style>

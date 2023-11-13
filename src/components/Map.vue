@@ -35,6 +35,9 @@
       //console.log("mounted")
       await this.fetchRoutes()
       //console.log(this.routes)    
+      let res = await fetch(`https://api.open-elevation.com/api/v1/lookup?locations=10,10|20,20|41.161758,-8.583933`);
+      res = await res.json();
+      console.log(res, "elevation api")
 
     },
 
