@@ -166,7 +166,8 @@ export default {
             }
           );
           res = await res.json()
-          for(let r in res.results){
+          console.log(res, `res`)
+          for(let r in res.results){//better way?
             if(this.elevation < res.results[r].elevation ){
               this.elevation = res.results[r].elevation
             }
@@ -201,9 +202,9 @@ export default {
           route: this.newRoute,
           name: this.routeName,
           gpx: this.gpx,
-          length: this.routeLength,
-          terrain: this.terrain,
           difficulty: this.difficulty,
+          terrain: this.terrain,
+          length: this.routeLength,
           desc: this.routeDesc,
           elevation: this.elevation
         }),

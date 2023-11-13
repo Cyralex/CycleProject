@@ -41,6 +41,11 @@
           {{ item.terrain }}
       </p>
       </template>
+      <template #item.elevation="{ item }">
+        <p>
+          {{ item.elevation }}
+      </p>
+      </template>
     </v-data-table>
   </v-card>
 </template>
@@ -64,6 +69,7 @@ export default {
     //console.log("mounted")
     await this.fetchRoutes();
     //console.log(this.routes)
+    
   },
   data() {
     return {
@@ -79,6 +85,7 @@ export default {
         { key: "length", title: "Length (miles)" },
         { key: "terrain", title: "Terrain" },
         { key: "difficulty", title: "Difficulty" },
+        { key: "elevation", title: "Elevation Gain" },
       ],
       routes: [],
     };
