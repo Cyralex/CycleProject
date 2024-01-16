@@ -52,6 +52,7 @@
          { text: "About", route: "/about" },
          {text: "Admin Login", route: "/login"},
          { text: "Edit Routes", route: "/edit" },
+         {text: "Submit Route", route: "routeSubmission"}
        ],
      };
    },

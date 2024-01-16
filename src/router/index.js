@@ -42,9 +42,18 @@ const routes = [
   { 
     path: '/login',
     name: 'Login', 
-    component: function(){ 
+    component: function () { 
       return import(/* webpackChunkName: "login" */ '../views/Login.vue')
     }
+  },
+  
+  { 
+    path: '/routeSubmission',
+    name: 'Route Submission',
+    component: function(){ 
+      return import(/* webpackChunkName: "login" */ '../views/RouteSubmission.vue')
+    }
+
   }
 
 ]
