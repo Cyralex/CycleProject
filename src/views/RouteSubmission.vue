@@ -27,12 +27,21 @@
           required
         ></v-file-input>
 
+        <v-btn class="submit" type="submit">submit</v-btn>
+
     </v-container>
 
 </v-container>
 
 
 </template>
+
+<script import emailjs from 'emailjs-com'> 
+
+
+
+
+</script>
 
 <style> 
     .formContainer
@@ -43,7 +52,8 @@
 
     .description
     { 
-        text-align: center;
-       
+        text-align: center;       
     }
+
+   
 </style>
