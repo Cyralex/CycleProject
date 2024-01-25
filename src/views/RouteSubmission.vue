@@ -10,7 +10,9 @@
         <br>
     </v-container>
 
-    <form class="formContainer">
+    <form class="formContainer" 
+          @submit.prevent="sendEmail" 
+          enctype="multipart/form-data">
 
         <v-text-field 
             label="Route Name"
@@ -56,27 +58,39 @@ export default {
   },
   methods: {
     sendEmail(e) {
+      e.preventDefault(); // Prevent default form submission behavior
+
       try {
-        emailjs.sendForm('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', e.target,
-        'YOUR_USER_ID', {
+        emailjs.send('service_ind2c06', 'template_z4rluov', {
           name: this.name,
           file: this.file
-          
-        })
+        }).then(response => {
+          console.log('Email sent successfully!', response);
+        }).catch(error => {
+          console.error('Error sending email:', error);
+        });
+  } catch(error) {
+    console.error('Error sending email:', error);
+  }
 
-      } catch(error) {
-          console.log({error})
-      }
       // Reset form field
       this.name = ''
       this.file = ''
       
     },
 
-    handlefile()
-    { 
-      const selectedFile = this.$refs.file.files[0];
-    }
+    handleFile() {
+      const file = this.$refs.file.files[0];
+      const reader = new FileReader();
+
+      reader.onload = () => {
+        this.file = reader.result; // store the file contents
+       };
+
+      // read the file as text
+      reader.readAsText(file);
+}
+
   }
 }
 
