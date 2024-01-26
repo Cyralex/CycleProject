@@ -19,6 +19,8 @@
             prepend-icon="mdi-bike"
             v-model="name"
             name="name"
+            id="name"
+            required
             >
 
         </v-text-field> 
@@ -29,9 +31,9 @@
           type="file"
           ref="file"
           @change="handleFile()"
-          required
-          v-model="file"
+          required         
           name="file"
+          accept=".gpx"
         ></v-file-input>
 
         <v-btn class="submit" type="submit">submit</v-btn>
@@ -44,58 +46,52 @@
 </template>
 
 <script> 
-import {emailjs} from '@emailjs/browser';
+// import {emailjs} from '@emailjs/browser';
 
-// get form data 
+ 
 export default {
   name: 'routeSuggestion',
   data() {
     return {
       name: '',
-      file: '',
+      file: null
      
-    }
-  },
+    };
+  },  
+
+
+
   methods: {
-    sendEmail(e) {
-      e.preventDefault(); // Prevent default form submission behavior
+    
+    handleFile(){
+   const selectedFile = this.$refs.file.files[0];
+  },  
+    
+    
+    async sendEmail() {
 
-      try {
-        emailjs.send('service_ind2c06', 'template_z4rluov', {
-          name: this.name,
-          file: this.file
-        }).then(response => {
-          console.log('Email sent successfully!', response);
-        }).catch(error => {
-          console.error('Error sending email:', error);
-        });
-  } catch(error) {
-    console.error('Error sending email:', error);
-  }
+      var templateParams = {
+        name: this.name,
+        //file: this.file
+      };
+     
+      try
+      { 
+        emailjs.send('service_ind2c06', 'template_z4rluov', templateParams, 'jiDg78lBJ8doaLmoh');
+        // Reset form field
+        this.name = ''
+        //this.file = ''
+      }
 
-      // Reset form field
-      this.name = ''
-      this.file = ''
+      catch(err)
+      { 
+        console.log("error sending email");
+      }
       
-    },
-
-    handleFile() {
-      const file = this.$refs.file.files[0];
-      const reader = new FileReader();
-
-      reader.onload = () => {
-        this.file = reader.result; // store the file contents
-       };
-
-      // read the file as text
-      reader.readAsText(file);
-}
+    }   
 
   }
 }
-
-
-
 
 </script>
 
