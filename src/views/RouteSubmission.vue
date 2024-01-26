@@ -12,7 +12,9 @@
 
     <form class="formContainer" 
           @submit.prevent="sendEmail" 
-          enctype="multipart/form-data">
+          enctype="multipart/form-data"
+          id="form"
+          name="form">
 
         <v-text-field 
             label="Route Name"
@@ -68,19 +70,11 @@ export default {
   },  
     
     
-    async sendEmail() {
-
-      var templateParams = {
-        name: this.name,
-        //file: this.file
-      };
-     
+      sendEmail() {
+      
       try
       { 
-        emailjs.send('service_ind2c06', 'template_z4rluov', templateParams, 'jiDg78lBJ8doaLmoh');
-        // Reset form field
-        this.name = ''
-        //this.file = ''
+        emailjs.sendForm('service_ind2c06', 'template_z4rluov', this, 'jiDg78lBJ8doaLmoh' )
       }
 
       catch(err)
