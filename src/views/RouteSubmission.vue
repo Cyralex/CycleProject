@@ -61,20 +61,18 @@ export default {
     };
   },  
 
-
-
   methods: {
     
     handleFile(){
    const selectedFile = this.$refs.file.files[0];
-  },  
-    
+  },     
     
       sendEmail() {
       
       try
       { 
-        emailjs.sendForm('service_ind2c06', 'template_z4rluov', this, 'jiDg78lBJ8doaLmoh' )
+
+        emailjs.sendForm('service_ind2c06', 'template_z4rluov', 'jiDg78lBJ8doaLmoh' )
       }
 
       catch(err)
