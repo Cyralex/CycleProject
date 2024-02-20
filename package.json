@@ -20,6 +20,7 @@
     "merge": "^2.1.1",
     "pinia": "^2.1.4",
     "roboto-fontface": "*",
+    "vite-jsconfig-paths": "^2.0.1",
     "vue": "^3.3.8",
     "vue-router": "^4.0.3",
     "vuetify": "^3.3.21",
