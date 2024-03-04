@@ -47,6 +47,7 @@ describe('NavBar.vue test', () => {
             ][index]);
         });
     });
+  
 
 
 })

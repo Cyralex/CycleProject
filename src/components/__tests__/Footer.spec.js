@@ -53,5 +53,22 @@ describe('Footer.vue test', () => {
         });
     });   
 
+    it('triggers handleClick method with correct link on button click', async () => {
+        // mount footer
+        const wrapper = mount(Footer);   
+        // create spy for handle click method
+        const spy = vi.spyOn(wrapper.vm, 'handleClick');
+
+        // click each button
+        const buttons = wrapper.findAll('v-btn');
+        for (const button of buttons){
+            await button.trigger('click');           
+        }
+
+        // make sure handle click was called each time
+        expect (spy).toHaveBeenCalledTimes(buttons.length);
+
+    });
+
    
 });

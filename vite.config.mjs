@@ -4,5 +4,6 @@ import { defineConfig } from "vite";
 
 
 export default{
-    plugins: [vue(), jsconfigPaths()],
+    plugins: [vue(), jsconfigPaths()],    
+   
 }
