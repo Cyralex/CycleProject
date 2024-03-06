@@ -146,7 +146,7 @@ import {VueReCaptcha} from "vue-recaptcha-v3"
 
         
 
-        let response = await fetch('http://localhost:3000/v1/email/', {
+        let response = await fetch(`${process.env.VUE_APP_BASE_URL}/v1/email/`, {
           method: "POST",
           headers: 
           { 
