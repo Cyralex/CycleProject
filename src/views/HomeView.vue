@@ -40,7 +40,7 @@ import RouteCard from "@/components/cards/RouteCard.vue";
 
 const routeStore = useRouteStore();
 const { getRoutes } = storeToRefs(routeStore);
-let routes = computed(() => routeStore.getRoutes);
+let routes = computed(() => routeStore.getRoutes);//
 </script>
 
 <style>

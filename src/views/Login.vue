@@ -37,7 +37,7 @@ export default{
         }
       try {
         let response = await fetch(
-          `http://localhost:3000/v1/user/`,
+          `${VUE_APP_API_URL}/v1/user/`,
           {
             method: "POST",
             headers: {
