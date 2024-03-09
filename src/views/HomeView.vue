@@ -3,6 +3,16 @@
     <Map />
   </v-container>
   <v-container>
+    <div class="search-filters">
+      <v-text-field
+        v-model="search"
+        append-icon="mdi-magnify"
+        label="Search"
+        single-line
+        hide-details
+      ></v-text-field>
+
+    </div>
     <v-row>
       <v-col v-for="r in routes" :key="r" sm="12" md="6" lg="3" xl="2">
         <RouteCard :route="r" />
