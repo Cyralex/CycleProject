@@ -39,10 +39,11 @@ let login = async () => {
     username: username.value,
     password: password.value,
   };
-  let response = await fetch(`http://localhost:3000/v1/auth/login`, {
+  let response = await fetch(`${process.env.VUE_APP_BASE_URL}/v1/auth/login`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      "credentials": "include"
     },
     body: JSON.stringify(up),
   });
@@ -57,7 +58,7 @@ let login = async () => {
   console.log(response);
 };
 let logout = async () => {
-  let response = await fetch(`http://localhost:3000/v1/auth/logout`, {
+  let response = await fetch(`${process.env.VUE_APP_BASE_URL}/v1/auth/logout`, {
     method: "POST",
     credentials: 'include',
     headers: {
