@@ -40,14 +40,17 @@ let routes = computed(() => routeStore.getRoutes);
 const search = ref("");
 
 const filteredRoutes = computed(() => {
-  return routes.value.filter((route) => {
-    const searchMatch =
-      route.name.toLowerCase().includes(search.value.toLowerCase()) || "";
-    const difficultyMatch =
-      selectedDifficulty.value === "" || route.difficulty === selectedDifficulty.value;
-    return searchMatch && difficultyMatch; // Combine search and filter
-  });
+  const searchTerm = search.value.toLowerCase().trim();
+  if (!searchTerm) {
+    return getRoutes.value;
+  } else {
+    return getRoutes.value.filter(route =>
+      route.name.toLowerCase().includes(searchTerm)
+    );
+  }
 });
+
+
 </script>
 
 <style>
