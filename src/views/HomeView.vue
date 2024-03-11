@@ -5,6 +5,7 @@
   <v-container>
     <div class="search-filters">
       <v-text-field
+        variant="solo"
         v-model="search"
         append-icon="mdi-magnify"
         label="Search for a route!"
@@ -15,26 +16,33 @@
       <br>
     <div class="filters">
       <v-text-field
+        variant="solo"
         v-model="minLength"
-        append-icon="mdi-map-search"
         label="Minimum Route Length"
         single-line
         hide-details
         type="number"
         ></v-text-field>
-        <br>
+
+      <div class="filter-spacing"></div>
+      <br>
+
       <v-text-field
+        variant="solo"
         v-model="maxLength"
-        append-icon="mdi-map-search"
         label="Maximum Route Length"
         single-line
         hide-details
         type="number"
       ></v-text-field>
+      
+      <div class="filter-spacing"></div>
       <br>
+      
       <v-select
+        class="difficulty-select"
+        variant="solo"
         v-model="selectedDifficulty"
-        append-icon="mdi-bike-fast"
         :items="difficultyOptions"
         label="Difficulty"
       ></v-select>
@@ -106,11 +114,35 @@ const filteredRoutes = computed(() => {
 </script>
 
 <style>
-.RoutesTable {
-  scale: 80%;
+
+
+@media (max-width: 600px){
+
+  .filter-spacing{
+    width: 10px;
+  }
+
+
 }
 
-.filters{
-  
+@media (min-width: 600px){
+    .RoutesTable {
+    scale: 80%;
+  }
+
+  .filters{
+    display: flex;
+    justify-content: center;
+    
+    
+  }
+
+  .filter-spacing{
+    width: 10px;
+  }
+
+  .difficulty-select{
+    height: 56px;
+  }     
 }
 </style>
