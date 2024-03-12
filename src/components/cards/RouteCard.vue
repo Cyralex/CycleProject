@@ -5,8 +5,8 @@
         <CardMap :route="route" cover />
 
         <v-card-title>{{ route.name }}</v-card-title>
-        <v-card-text>{{ route.length }} miles</v-card-text>
-        <v-card-text>{{ route.difficulty }}</v-card-text>
+        <v-card-text>{{ route.length }} miles <br> {{ route.difficulty }} <br> Elevation Gain: {{ route.elevation }} Feet</v-card-text>
+        
 
         <v-card-actions>
           <v-btn router :to="link"> View Route </v-btn>

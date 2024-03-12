@@ -35,6 +35,16 @@
         hide-details
         type="number"
       ></v-text-field>
+      <div class="filter-spacing"></div>
+      <br>
+      <v-text-field
+        variant="solo"
+        v-model="maxElevation"
+        label="Maximum Elevation Gain"
+        single-line
+        hide-details
+        type="number"
+        ></v-text-field>
       
       <div class="filter-spacing"></div>
       <br>
@@ -78,6 +88,7 @@ const search = ref("");
 const minLength = ref(null);
 const maxLength = ref(null);
 const selectedDifficulty = ref(null);
+const maxElevation = ref(null);
 
 const difficultyOptions = ['Any', 'Beginner', 'Intermediate', 'Expert'];
 
@@ -105,6 +116,11 @@ const filteredRoutes = computed(() => {
   // Filter by difficulty
   if (selectedDifficulty.value && selectedDifficulty.value !== 'Any') {
     filtered = filtered.filter(route => route.difficulty === selectedDifficulty.value);
+  }
+
+  // Filter by elevation gain
+  if (maxElevation.value) {
+    filtered = filtered.filter(route => route.elevation >= maxElevation.value);
   }
 
   return filtered;
