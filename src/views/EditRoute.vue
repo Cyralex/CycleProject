@@ -179,7 +179,6 @@ let handleFile = () => {
             };
             count++;
           }
-          console.log(elevArr);
           //get elevation at coord points from backend
           let eresponse = await fetch(
             `https://api.open-elevation.com/api/v1/lookup`,
@@ -193,7 +192,6 @@ let handleFile = () => {
           );
 
           eresponse = await eresponse.json();
-          console.log(eresponse);
           //elevation gain
           elevArr = eresponse.results;
           let egain = 0;
