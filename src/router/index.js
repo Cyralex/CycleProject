@@ -53,6 +53,12 @@ const routes = [
     component: function(){
       return import(/* webpackChunkName: "RouteSuggestion" */ '../views/RouteSuggestion.vue')
     }
+  },
+  { path: '/:pathMatch(.*)*',
+    name:'404',
+    component: function(){
+      return import(/* webpackChunkName: "404" */ '../views/404View.vue')
+    }
   }
 
 ]
