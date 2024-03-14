@@ -1,5 +1,4 @@
 <template>
-  <h1>BUILT TO SERVER</h1>
   <v-container >
     <Map />
   </v-container>

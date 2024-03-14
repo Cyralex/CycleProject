@@ -47,15 +47,9 @@ let login = async () => {
     },
     body: JSON.stringify(up),
   });
-  const headers = response.headers;
-  console.log(headers);
   response = await response.json();
-  const cookies = document.cookie;
 
   // Log the headers or access specific header values
-  console.log("All headers:", headers);
-  console.log("Received Cookies:", cookies);
-  console.log(response);
 };
 let logout = async () => {
   let response = await fetch(`${process.env.VUE_APP_BASE_URL}/v1/auth/logout`, {
@@ -67,10 +61,8 @@ let logout = async () => {
     body: JSON.stringify({}),
   });
   response = await response.json();
-  console.log(response);
 };
 let submit = () => {
-  console.log(username.value, password.value);
   login();
 };
 </script>
