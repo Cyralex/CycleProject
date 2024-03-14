@@ -65,7 +65,9 @@
         <RouteCard :route="r" />
       </v-col>
     </v-row>
+      
   </v-container>
+ 
   <RoutesTable />
   <br />
 </template>

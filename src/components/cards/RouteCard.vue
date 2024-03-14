@@ -35,7 +35,7 @@ export default {
 </script>
 
 <style>
-.cardlink{
+.cardlink {
   text-decoration: none;
   color: inherit;
 }
