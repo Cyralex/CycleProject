@@ -82,7 +82,6 @@ let poly = (arr) => {
     returnArr[count] = [arr[i][1], arr[i][0]];
     count++;
   }
-  console.log(returnArr.length);
   return returnArr;
 };
 let count = 0;
