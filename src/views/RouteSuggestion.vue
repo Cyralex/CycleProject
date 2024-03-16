@@ -94,18 +94,20 @@
         >
         </v-text-field>
   
-        <v-btn @click="submit" class="submit" type="submit">submit</v-btn>
-
-        <button @click="recaptcha">Execute recaptcha</button>
+        <v-btn @click="submit, recaptcha" class="submit" type="submit">submit</v-btn>
+        <!-- listen to verify event emited by the recaptcha component -->
+        <button @click="recaptcha">Recaptcha</button>
       </form>
     </v-container>
   </template>
   
   <script>
-import Vue from "vue"
-import {VueReCaptcha} from "vue-recaptcha-v3"
-
+  import Recaptcha from '@/components/recaptcha.vue'
+  //import reCaptcha from "@/components/reCaptcha.vue"
   export default {
+    componenets:{
+      Recaptcha
+    },
     name: "routeSuggestion",
     data() {
       return {
@@ -119,10 +121,7 @@ import {VueReCaptcha} from "vue-recaptcha-v3"
       };
     },
   
-    methods: {
-      async recaptcha() {
-      // (optional) Wait until recaptcha has been loaded.
-      await this.$recaptchaLoaded()},
+    methods:{
       // handle file once uploaded 
       handleFile() {
         this.file = this.$refs.file.files[0];
@@ -186,8 +185,6 @@ import {VueReCaptcha} from "vue-recaptcha-v3"
             //setTimeout(() => {
             //location.reload();
         //}, 1000);
-        //const token = await this.$recaptcha('submit');
-
         if (response.status === 200){
           this.success = true;
         }
