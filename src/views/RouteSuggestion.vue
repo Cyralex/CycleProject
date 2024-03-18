@@ -2,26 +2,13 @@
   
 <script>
 import VueHcaptcha from '@hcaptcha/vue3-hcaptcha';
-import { ref } from "vue";
-const verified = ref(false);
-const expired = ref(false);
-const token = ref("");
-const eKey = ref("");
-const error = ref("");
+
   export default {
     componenets:{
     },
     name: "routeSuggestion",
     data() {
-      return {
-        name: "",
-        file: null,
-        success: false,
-        email: "",
-        poi: "",
-        valid: true,
-
-      };
+      
     },
   
     methods:{
@@ -102,6 +89,28 @@ const error = ref("");
         //response = await response.json();
         return response;
       },
+      hsubmit(){
+      this.$refs.hCaptchaRef.execute();
+      },
+      verifyCaptcha(token) {
+      this.formData.hCaptchaToken = token;
+
+      if (this.formData.hCaptchaToken) {
+        fetch(process.env.VUE_APP_BASE_URL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(this.formData),
+        })
+          .then(() => {
+            this.valid = true;
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
+    },
       
 
       // subbmit 
@@ -256,18 +265,16 @@ const error = ref("");
         <p>{{ error }}</p>
     </div>
 
-    <vue-hcaptcha
-        sitekey=process.env.SITEKEY
-        @submit="onSubmit"
-        @verify="onVerify"
-        @expired="onExpire"
-        @challenge-expired="onChallengeExpire"
-        @error="onError"
-    />
-
 </div>
       </div>
     </v-container>
+    <vue-hcaptcha
+        sitekey=process.env.SITEKEY
+        size="invisible"
+        ref="hCaptchaRef"
+        @verify="verifyCaptcha"
+    />
+    <button @click="submit">submit</button>
   </template>
   
   <style>
@@ -280,10 +287,5 @@ const error = ref("");
   .invalidForm, .success{
     padding: 10px;
     margin: 15px;
-
-   
   }
-
-  
-  
   </style>
