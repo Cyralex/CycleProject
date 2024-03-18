@@ -1,4 +1,144 @@
-<template>
+
+  
+<script>
+import VueHcaptcha from '@hcaptcha/vue3-hcaptcha';
+import { ref } from "vue";
+const verified = ref(false);
+const expired = ref(false);
+const token = ref("");
+const eKey = ref("");
+const error = ref("");
+  export default {
+    componenets:{
+    },
+    name: "routeSuggestion",
+    data() {
+      return {
+        name: "",
+        file: null,
+        success: false,
+        email: "",
+        poi: "",
+        valid: true,
+
+      };
+    },
+  
+    methods:{
+
+       onVerify(tokenStr, ekey) {
+        verified.value = true;
+        token.value = tokenStr;
+        eKey.value = ekey;
+        console.log(`Callback token: ${tokenStr}, ekey: ${ekey}`);
+      },
+
+       onExpire() {
+          verified.value = false;
+          token.value = '';
+          eKey.value = '';
+          expired.value = true;
+          console.log('Expired');
+        },
+
+        onChallengeExpire() {
+          verified.value = false;
+          token.value = '';
+          eKey.value = '';
+          expired.value = true;
+          console.log('Challenge expired');
+        },
+
+         onError(err) {
+          token.value = '';
+          eKey.value = '';
+          error.value = err;
+          console.log(`Error: ${err}`);
+        },
+
+       onSubmit() {
+         execute();
+        },
+      // handle file once uploaded 
+      handleFile() {
+        this.file = this.$refs.file.files[0];
+        console.log(this.file);
+        
+      },
+      
+      // send data to backend 
+      async postSuggestion()
+      { 
+
+        const blob = new Blob([this.file], { type: "text/plain" });
+        const text = await blob.text();
+        console.log(text);
+        
+
+       /* const formData = new FormData();
+        formData.append('name', this.name);
+        formData.append('route', text);
+        console.log(formData);*/
+
+        
+
+        let response = await fetch(`${process.env.VUE_APP_BASE_URL}/v1/email/`, {
+          method: "POST",
+          headers: 
+          { 
+            "Content-Type": "application/json",
+             
+          },
+          body: JSON.stringify({
+            name: this.name,
+            file: text,
+            poi: this.poi,
+            email: this.email
+
+          })
+          
+        })
+        
+        //response = await response.json();
+        return response;
+      },
+      
+
+      // subbmit 
+      async submit(){ 
+        try{
+          if(!this.file || !this.name){
+            this.valid=false;
+            return;
+          }else{
+            this.valid=true;
+          }
+
+          const response = await this.postSuggestion(
+            this.file,
+            this.name
+          );       
+          console.log(response);   
+            //setTimeout(() => {
+            //location.reload();
+        //}, 1000);
+        if (response.status === 200){
+          this.success = true;
+        }
+        
+        }
+        catch(e){
+          console.log("error:\n");
+          console.log(e);
+
+        }     
+
+      }
+    },
+  };
+  
+  </script>
+  <template>
 
   
     <v-container>
@@ -93,114 +233,42 @@
 
         >
         </v-text-field>
-  
-        <v-btn @click="submit, recaptcha" class="submit" type="submit">submit</v-btn>
+        
+        <v-btn @click="submit" class="submit" type="submit">submit</v-btn>
         <!-- listen to verify event emited by the recaptcha component -->
-        <button @click="recaptcha">Recaptcha</button>
       </form>
+      <div>
+      <div >
+    
+
+    <div v-if="verified" id="verified">
+        <h1>Successfully Verified!</h1>
+        <p>token: {{ token }}</p>
+        <p>eKey: {{ eKey }}</p>
+    </div>
+
+    <div v-if="expired" id="expired">
+        <h1>Challenge expired!</h1>
+    </div>
+
+    <div v-if="error" id="error">
+        <h1>Error:</h1>
+        <p>{{ error }}</p>
+    </div>
+
+    <vue-hcaptcha
+        sitekey=process.env.SITEKEY
+        @submit="onSubmit"
+        @verify="onVerify"
+        @expired="onExpire"
+        @challenge-expired="onChallengeExpire"
+        @error="onError"
+    />
+
+</div>
+      </div>
     </v-container>
   </template>
-  
-  <script>
-  import Recaptcha from '@/components/recaptcha.vue'
-  //import reCaptcha from "@/components/reCaptcha.vue"
-  export default {
-    componenets:{
-      Recaptcha
-    },
-    name: "routeSuggestion",
-    data() {
-      return {
-        name: "",
-        file: null,
-        success: false,
-        email: "",
-        poi: "",
-        valid: true,
-
-      };
-    },
-  
-    methods:{
-      // handle file once uploaded 
-      handleFile() {
-        this.file = this.$refs.file.files[0];
-        console.log(this.file);
-        
-      },
-      
-      // send data to backend 
-      async postSuggestion()
-      { 
-
-        const blob = new Blob([this.file], { type: "text/plain" });
-        const text = await blob.text();
-        console.log(text);
-        
-
-       /* const formData = new FormData();
-        formData.append('name', this.name);
-        formData.append('route', text);
-        console.log(formData);*/
-
-        
-
-        let response = await fetch(`${process.env.VUE_APP_BASE_URL}/v1/email/`, {
-          method: "POST",
-          headers: 
-          { 
-            "Content-Type": "application/json",
-             
-          },
-          body: JSON.stringify({
-            name: this.name,
-            file: text,
-            poi: this.poi,
-            email: this.email
-
-          })
-          
-        })
-        
-        //response = await response.json();
-        return response;
-      },
-      
-
-      // subbmit 
-      async submit(){ 
-        try{
-          if(!this.file || !this.name){
-            this.valid=false;
-            return;
-          }else{
-            this.valid=true;
-          }
-
-          const response = await this.postSuggestion(
-            this.file,
-            this.name
-          );       
-          console.log(response);   
-            //setTimeout(() => {
-            //location.reload();
-        //}, 1000);
-        if (response.status === 200){
-          this.success = true;
-        }
-        
-        }
-        catch(e){
-          console.log("error:\n");
-          console.log(e);
-
-        }     
-
-      }
-    },
-  };
-  
-  </script>
   
   <style>
   .formContainer {
