@@ -28,6 +28,7 @@
 
 <script setup>
 import { ref, reactive } from "vue";
+import router from "vue-router";
 let username = ref("");
 let password = ref("");
 
@@ -43,24 +44,34 @@ let login = async () => {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "credentials": "include"
+      credentials: "include",
     },
     body: JSON.stringify(up),
   });
   response = await response.json();
-
+  if (response.success == true) {
+    router.push("/edit");
+  } else {
+    alert("Login failed");
+  }
   // Log the headers or access specific header values
 };
 let logout = async () => {
   let response = await fetch(`${process.env.VUE_APP_BASE_URL}/v1/auth/logout`, {
     method: "POST",
-    credentials: 'include',
+    credentials: "include",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({}),
   });
   response = await response.json();
+  if (response.success == true) {
+    router.push("/");
+  } else {
+    alert("Logout failed");
+  }
+  // Lo
 };
 let submit = () => {
   login();

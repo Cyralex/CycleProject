@@ -1,19 +1,22 @@
 <template>
-  <v-container>    
-    <a target="" class="cardlink" :href="'/route/' + route.id">
+  <v-container>
+    <router-link class="cardlink" :to="'/route/' + route.id">
       <v-card class="mx-auto" max-width="375" max-height="500">
         <CardMap :route="route" cover />
 
         <v-card-title>{{ route.name }}</v-card-title>
-        <v-card-text>{{ route.length }} miles <br> {{ route.difficulty }} <br> Elevation Gain: {{ route.elevation }} Feet</v-card-text>
-        
+        <v-card-text
+          >{{ route.length }} miles <br />
+          {{ route.difficulty }} <br />
+          Elevation Gain: {{ route.elevation }} Feet</v-card-text
+        >
 
         <v-card-actions>
           <v-btn router :to="link"> View Route </v-btn>
         </v-card-actions>
       </v-card>
-    </a>
-</v-container>
+    </router-link>
+  </v-container>
 </template>
 
 <script>
