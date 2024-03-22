@@ -1,5 +1,5 @@
 <template>
-  <v-container >
+  <v-container>
     <Map />
   </v-container>
   <v-container>
@@ -13,61 +13,65 @@
         hide-details
         placeholder="Search for a route!"
       ></v-text-field>
-      <br>
-    <div class="filters">
-      <v-text-field
-        variant="solo"
-        v-model="minLength"
-        label="Minimum Route Length"
-        single-line
-        hide-details
-        type="number"
+      <br />
+      <div class="filters">
+        <v-text-field
+          variant="solo"
+          v-model="minLength"
+          label="Minimum Route Length"
+          single-line
+          hide-details
+          type="number"
         ></v-text-field>
 
-      <div class="filter-spacing"></div>
-      <br>
+        <div class="filter-spacing"></div>
+        <br />
 
-      <v-text-field
-        variant="solo"
-        v-model="maxLength"
-        label="Maximum Route Length"
-        single-line
-        hide-details
-        type="number"
-      ></v-text-field>
-      <div class="filter-spacing"></div>
-      <br>
-      <v-text-field
-        variant="solo"
-        v-model="maxElevation"
-        label="Maximum Elevation Gain"
-        single-line
-        hide-details
-        type="number"
+        <v-text-field
+          variant="solo"
+          v-model="maxLength"
+          label="Maximum Route Length"
+          single-line
+          hide-details
+          type="number"
         ></v-text-field>
-      
-      <div class="filter-spacing"></div>
-      <br>
-      
-      <v-select
-        class="difficulty-select"
-        variant="solo"
-        v-model="selectedDifficulty"
-        :items="difficultyOptions"
-        label="Difficulty"
-      ></v-select>
-    </div>
+        <div class="filter-spacing"></div>
+        <br />
+        <v-text-field
+          variant="solo"
+          v-model="maxElevation"
+          label="Maximum Elevation Gain"
+          single-line
+          hide-details
+          type="number"
+        ></v-text-field>
 
+        <div class="filter-spacing"></div>
+        <br />
 
+        <v-select
+          class="difficulty-select"
+          variant="solo"
+          v-model="selectedDifficulty"
+          :items="difficultyOptions"
+          label="Difficulty"
+        ></v-select>
+      </div>
     </div>
     <v-row>
+      <v-container>
+        <v-row v-if="emptyFilter" justify="center">
+          <v-col height="500px" cols="6">
+            <h1 style="text-align: center">No route found</h1>
+          </v-col>
+        </v-row>
+      </v-container>
       <v-col v-for="r in filteredRoutes" :key="r" sm="12" md="6" lg="3" xl="2">
         <RouteCard :route="r" />
       </v-col>
     </v-row>
-      
   </v-container>
- 
+
   <RoutesTable />
   <br />
 </template>
@@ -92,75 +96,75 @@ const maxLength = ref(null);
 const selectedDifficulty = ref(null);
 const maxElevation = ref(null);
 
-const difficultyOptions = ['Any', 'Beginner', 'Intermediate', 'Expert'];
-
+const difficultyOptions = ["Any", "Beginner", "Intermediate", "Expert"];
+let emptyFilter = ref(false);
 const filteredRoutes = computed(() => {
   let filtered = getRoutes.value;
 
   // Filter by search term
   const searchTerm = search.value.toLowerCase().trim();
   if (searchTerm) {
-    filtered = filtered.filter(route =>
+    filtered = filtered.filter((route) =>
       route.name.toLowerCase().includes(searchTerm)
     );
+    if (filtered.length == 0) {
+      emptyFilter = true;
+    } else {
+      emptyFilter = false;
+    }
   }
 
   // Filter by min length
   if (minLength.value) {
-    filtered = filtered.filter(route => route.length >= minLength.value);
+    filtered = filtered.filter((route) => route.length >= minLength.value);
   }
 
   // Filter by max length
   if (maxLength.value) {
-    filtered = filtered.filter(route => route.length <= maxLength.value);
+    filtered = filtered.filter((route) => route.length <= maxLength.value);
   }
 
   // Filter by difficulty
-  if (selectedDifficulty.value && selectedDifficulty.value !== 'Any') {
-    filtered = filtered.filter(route => route.difficulty === selectedDifficulty.value);
+  if (selectedDifficulty.value && selectedDifficulty.value !== "Any") {
+    filtered = filtered.filter(
+      (route) => route.difficulty === selectedDifficulty.value
+    );
   }
 
   // Filter by elevation gain
   if (maxElevation.value) {
-    filtered = filtered.filter(route => route.elevation >= maxElevation.value);
+    filtered = filtered.filter(
+      (route) => route.elevation >= maxElevation.value
+    );
   }
 
   return filtered;
 });
-
-
 </script>
 
 <style>
-
-
-@media (max-width: 600px){
-
-  .filter-spacing{
+@media (max-width: 600px) {
+  .filter-spacing {
     width: 10px;
   }
-
-
 }
 
-@media (min-width: 600px){
-    .RoutesTable {
+@media (min-width: 600px) {
+  .RoutesTable {
     scale: 80%;
   }
 
-  .filters{
+  .filters {
     display: flex;
     justify-content: center;
-    
-    
   }
 
-  .filter-spacing{
+  .filter-spacing {
     width: 10px;
   }
 
-  .difficulty-select{
+  .difficulty-select {
     height: 56px;
-  }     
+  }
 }
 </style>
