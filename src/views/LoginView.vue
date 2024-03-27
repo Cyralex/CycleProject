@@ -28,10 +28,10 @@
 
 <script setup>
 import { ref, reactive } from "vue";
-import router from "vue-router";
+import { useRouter } from "vue-router";
 let username = ref("");
 let password = ref("");
-
+const router = useRouter()
 let inputRules = reactive([
   (v) => v.length > 0 || "Please add a value to this field",
 ]);

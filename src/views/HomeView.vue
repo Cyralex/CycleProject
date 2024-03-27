@@ -60,9 +60,12 @@
     </div>
     <v-row>
       <v-container>
-        <v-row v-if="emptyFilter" justify="center">
-          <v-col height="500px" cols="6">
-            <h1 style="text-align: center">No route found</h1>
+        <v-row justify="center">
+          <v-col cols="6">
+
+            <h1 v-if="emptyFilter" style="text-align: center">
+              No route found
+            </h1>
           </v-col>
         </v-row>
       </v-container>
@@ -85,7 +88,6 @@ import { ref, reactive, computed } from "vue";
 import Map from "@/components/Map.vue";
 import RoutesTable from "@/components/RoutesTable.vue";
 import RouteCard from "@/components/cards/RouteCard.vue";
-
 const routeStore = useRouteStore();
 const { getRoutes } = storeToRefs(routeStore);
 let routes = computed(() => routeStore.getRoutes);
