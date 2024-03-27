@@ -90,6 +90,20 @@
               </v-row>
               <v-row justify="center">
                 <v-col cols="9">
+                  <v-textarea
+                    label="Points of Interest"
+                    prepend-icon="fa:fas fa-search"
+                    class="routeDesc"
+                    type="text"
+                    variant="outlined"
+                    name="poi"
+                    v-model="poi"
+                    :rules="inputRules"
+                  ></v-textarea>
+                </v-col>
+              </v-row>
+              <v-row justify="center">
+                <v-col cols="9">
                   <v-file-input
                     label="Upload .gpx File"
                     variant="outlined"
@@ -102,6 +116,7 @@
                   ></v-file-input>
                 </v-col>
               </v-row>
+
               <v-row justify="center">
                 <v-btn
                   width="200%"
@@ -155,8 +170,6 @@
               >
                 <v-row justify="center">
                   <v-col cols="9">
-                    <v-card-text>ID: {{ item.id }}</v-card-text>
-                    <v-card-text>Name: {{ item.name }}</v-card-text>
                     <v-text-field
                       prepend-icon="mdi-map-marker"
                       v-model="item.name"
@@ -269,7 +282,7 @@ let file = ref();
 let gpx = ref();
 let newRoute = ref();
 let elevation = ref();
-
+let poi = ref();
 let editForm = ref();
 
 //methods
@@ -303,6 +316,7 @@ let submit = async (event) => {
         terrain: terrain.value,
         desc: routeDesc.value,
         elevation: elevation.value,
+        poi: poi.value,
       };
 
       routeStore.addRoute(routeToAdd);
