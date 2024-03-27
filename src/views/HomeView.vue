@@ -128,9 +128,7 @@ const filteredRoutes = computed(() => {
 
   // Filter by elevation gain
   if (maxElevation.value) {
-    filtered = filtered.filter(
-      (route) => route.elevation >= maxElevation.value
-    );
+    filtered = filtered.filter(route => route.elevation <= maxElevation.value);
   }
 
   return filtered;
