@@ -18,15 +18,8 @@
       </v-row>
       <v-row justify="center">
         <v-col cols="9">
-          <RouteDetail :route="route" />
-
           <div class="desc">
             <RouteDetail :route="route" />
-          </div>
-
-          <br />
-
-          <div class="desc">
             <RoutePOI :route="route" />
           </div>
         </v-col>
@@ -34,7 +27,7 @@
     </div>
     <div class="noRoute" v-if="!route">
       <h1>Loading...</h1>
-      <a class="noRoutea" href="/">Back to Home</a>
+      <router-link class="noRoutea" :to="'/'">Back to Home</router-link>
     </div>
   </div>
 </template>

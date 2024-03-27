@@ -187,22 +187,7 @@
                       :rules="inputRules"
                       required
                     ></v-textarea>
-                    <v-row justify="center">
-                      <div class="text-h5">Upload a new GPX file</div>
-                    </v-row>
-
-                    <v-row>
-                      <v-file-input
-                        label="Upload .gpx File"
-                        variant="outlined"
-                        accept=".gpx"
-                        type="file"
-                        ref="file"
-                        :rules="inputRules"
-                        prepend-icon="mdi-map"
-                        required
-                      ></v-file-input>
-                    </v-row>
+                   
                     <v-row justify="center">
                       <v-btn width="200%" type="submit" flat>submit</v-btn>
                     </v-row>
