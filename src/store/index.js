@@ -19,20 +19,20 @@ export const useRouteStore = defineStore("routeStore", {
     //methods to mutate data
     async updateRoute(updatedRoute) {
       //TODO: make this function work.. untested
-      id = updatedRoute.id; //take in whatever attributes are being updated, leave rest unchanged, put back into state
+      console.log(updatedRoute, "in store");
+      //take in whatever attributes are being updated, leave rest unchanged, put back into state
+
       let response = await fetch(
-        `${process.env.VUE_APP_BASE_URL}/a1/geo/${id}`,
+        `${process.env.VUE_APP_BASE_URL}/a1/geo/${updatedRoute.id}`,
         {
           method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(updatedRoute),
         }
       );
       response = await response.json();
-      this.routes = this.routes.map((r) => {
-        //update route list
-        if ((r.id = updatedRoute.id)) {
-          r = updatedRoute;
-        }
-      });
     },
     async addRoute(routeToAdd) {
       //tested
