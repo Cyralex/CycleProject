@@ -103,7 +103,13 @@
                 </v-col>
               </v-row>
               <v-row justify="center">
-                <v-btn width="200%" type="submit" flat>submit</v-btn>
+                <v-btn
+                  width="200%"
+                  type="submit"
+                  @click="closeDialog"
+                  flat
+                  >submit</v-btn
+                >
               </v-row>
               <v-row>
                 <v-spacer></v-spacer>
@@ -127,8 +133,7 @@
       :search="search"
     >
       <template #item.name="{ item }">
-        <router-link :to="'/route/' + item.id"
-          >
+        <router-link :to="'/route/' + item.id">
           {{ item.name }}
         </router-link>
       </template>
@@ -145,7 +150,7 @@
               <v-form
                 class="routeForm"
                 validate-on="submit lazy"
-                @submit.prevent="submitEdit"
+                @submit.prevent="submitEdit(item)"
                 ref="editForm"
               >
                 <v-row justify="center">
@@ -187,9 +192,26 @@
                       :rules="inputRules"
                       required
                     ></v-textarea>
-                   
+                    <v-textarea
+                      label="Route POI"
+                      class="routePOI"
+                      type="text"
+                      variant="outlined"
+                      name="routeDesc"
+                      v-model="item.poi"
+                      :rules="inputRules"
+                      prepend-icon="fa:fas fa-search"
+                      required
+                    ></v-textarea>
+
                     <v-row justify="center">
-                      <v-btn width="200%" type="submit" flat>submit</v-btn>
+                      <v-btn
+                        width="200%"
+                        type="submit"
+                        @click="closeDialog"
+                        flat
+                        >submit</v-btn
+                      >
                     </v-row>
                   </v-col>
                 </v-row>
@@ -200,10 +222,7 @@
       </template>
       <template #item.del="{ item }">
         <div class="tableBtn">
-          <v-btn
-            icon="mdi-trash-can"
-            @click="del(item.id)"
-          /><!-- add download functionality -->
+          <v-btn icon="mdi-trash-can" @click="del(item.id)" />
         </div>
       </template>
     </v-data-table>
@@ -251,21 +270,22 @@ let gpx = ref();
 let newRoute = ref();
 let elevation = ref();
 
-let erouteName = ref("");
-let erouteLength = ref();
-let eterrain = ref("");
-let edifficulty = ref("");
-let erouteDesc = ref("");
-let efile = ref();
-let egpx = ref();
-let enewRoute = ref();
-let eelevation = ref();
-
 let editForm = ref();
 
 //methods
-let submitEdit = async (event) => {
-  console.log(editForm.value);
+let submitEdit = async (item) => {
+  console.log(editForm);
+  console.log(item);
+  let updatedRoute = {
+    id: item.id,
+    name: item.name,
+    difficulty: item.difficulty,
+    terrain: item.terrain,
+    desc: item.desc,
+    poi: item.poi,
+  };
+  console.log(updatedRoute, "in table", updatedRoute.id);
+  routeStore.updateRoute(updatedRoute);
 };
 
 let submit = async (event) => {
