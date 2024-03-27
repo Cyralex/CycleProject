@@ -53,7 +53,7 @@ export default {
       links: [
         { text: "Home", route: "/" },
         { text: "About", route: "/about" },
-        { text: "Route Suggestion", route: "/RouteSuggestion" },
+        { text: "Route Suggestion", route: "/routesuggestion" },
       ],
     };
   },

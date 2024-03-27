@@ -55,7 +55,7 @@ const routes = [
       requiresAuth: true,
     },
     component: function () {
-      return import(/* webpackChunkName: "edit" */ "../views/EditRoute.vue");
+      return import(/* webpackChunkName: "edit" */ "../views/EditRouteView.vue");
     },
   },
 
@@ -68,7 +68,7 @@ const routes = [
   },
 
   {
-    path: "/RouteSuggestion",
+    path: "/routesuggestion",
     name: "RouteSuggestion",
     component: function () {
       return import(

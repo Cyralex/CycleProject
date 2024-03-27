@@ -17,8 +17,11 @@
           label="Password"
           variant="outlined"
           v-model="password"
+          :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
           :rules="inputRules"
+          :type="showPassword ? 'text' : 'password'"
           required
+          @click:append="showPassword = !showPassword"
         ></v-text-field>
         <v-btn type="submit" flat>Submit</v-btn>
       </v-form>
@@ -31,7 +34,7 @@ import { ref, reactive } from "vue";
 import { useRouter } from "vue-router";
 let username = ref("");
 let password = ref("");
-const router = useRouter()
+const router = useRouter();
 let inputRules = reactive([
   (v) => v.length > 0 || "Please add a value to this field",
 ]);

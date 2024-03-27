@@ -62,8 +62,7 @@
       <v-container>
         <v-row justify="center">
           <v-col cols="6">
-
-            <h1 v-if="emptyFilter" style="text-align: center">
+            <h1 v-if="!filteredRoutes.length" style="text-align: center">
               No route found
             </h1>
           </v-col>
@@ -99,7 +98,6 @@ const selectedDifficulty = ref(null);
 const maxElevation = ref(null);
 
 const difficultyOptions = ["Any", "Beginner", "Intermediate", "Expert"];
-let emptyFilter = ref(false);
 const filteredRoutes = computed(() => {
   let filtered = getRoutes.value;
 
@@ -109,11 +107,6 @@ const filteredRoutes = computed(() => {
     filtered = filtered.filter((route) =>
       route.name.toLowerCase().includes(searchTerm)
     );
-    if (filtered.length == 0) {
-      emptyFilter = true;
-    } else {
-      emptyFilter = false;
-    }
   }
 
   // Filter by min length
