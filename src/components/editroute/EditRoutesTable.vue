@@ -106,7 +106,7 @@
                 <v-btn
                   width="200%"
                   type="submit"
-                  @click="closeDialog"
+                  @click="isActive.value = false"
                   flat
                   >submit</v-btn
                 >
@@ -208,7 +208,7 @@
                       <v-btn
                         width="200%"
                         type="submit"
-                        @click="closeDialog"
+                        @click="isActive.value = false"
                         flat
                         >submit</v-btn
                       >
