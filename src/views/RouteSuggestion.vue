@@ -94,8 +94,6 @@ import hCaptcha from '@/components/hCaptcha.vue'
   
   </script>
   <template>
-
-  
     <v-container>
       <div v-if="success">
         <v-alert 
@@ -127,29 +125,87 @@ import hCaptcha from '@/components/hCaptcha.vue'
       >
         <template v-slot:title> Submit a route! </template>
 
-        >
-        </v-text-field>
-        
-        <v-btn @click="submit" class="submit" type="submit">submit</v-btn>
-        <hCaptcha/>
-        <!-- listen to verify event emited by the recaptcha component -->
-      </form>
-      <div>
-
-      </div>
+        <v-card-text>
+          Please use the form below to submit a route suggestion for the cycling
+          website!
+          <br />
+          Your submission will be reviewed by the City of Bolivar.
+          <br />
+          Please include the name of your route, associated GPX file, points of
+          interest you would like to include along the route, and optionally
+          your contact information.
+        </v-card-text>
+      </v-card>
     </v-container>
-    
-  </template>
-  
-  <style>
-  .formContainer {
-    max-width: 500px;
-    color: #083a8c;
-    padding: 10px;
-  }
 
-  .invalidForm, .success{
-    padding: 10px;
-    margin: 15px;
-  }
-  </style>
+    <form
+      v-show="!success"
+      class="formContainer"
+      @submit.prevent="handleSubmit"
+      enctype="multipart/form-data"
+      id="form"
+      name="form"
+      ref="form"
+    >
+      <v-text-field
+        variant="outlined"
+        label="Route Name"
+        prepend-icon="mdi-bike"
+        v-model="name"
+        name="name"
+        id="name"
+        required
+      >
+      </v-text-field>
+
+      <v-file-input
+        label="Upload .gpx File"
+        variant="outlined"
+        type="file"
+        ref="file"
+        @change="handleFile()"
+        required
+        name="file"
+        accept=".gpx"
+      ></v-file-input>
+
+      <v-text-field
+        variant="outlined"
+        label="Points of Interest"
+        prepend-icon="mdi-map-marker-radius"
+        v-model="poi"
+        name="poi"
+        id="poi"
+      ></v-text-field>
+
+      <v-text-field
+        variant="outlined"
+        label="Email"
+        prepend-icon="mdi-email"
+        v-model="email"
+        name="email"
+        id="email"
+        type="email"
+      >
+      </v-text-field>
+
+      <v-btn @click="submit" class="submit" type="submit">submit</v-btn>
+
+      <hCaptcha/>
+    </form>
+  </v-container>
+</template>
+
+<style>
+.formContainer {
+  max-width: 500px;
+  color: #083a8c;
+  padding: 10px;
+}
+
+.invalidForm,
+.success {
+  padding: 10px;
+  margin: 15px;
+}
+</style>
