@@ -1,7 +1,9 @@
 
-  
+<script setup>
+import hCaptcha from '@/components/hCaptcha.vue'
+</script>  
 <script>
-import VueHcaptcha from '@hcaptcha/vue3-hcaptcha';
+
 
   export default {
     componenets:{
@@ -12,40 +14,6 @@ import VueHcaptcha from '@hcaptcha/vue3-hcaptcha';
     },
   
     methods:{
-
-       onVerify(tokenStr, ekey) {
-        verified.value = true;
-        token.value = tokenStr;
-        eKey.value = ekey;
-        console.log(`Callback token: ${tokenStr}, ekey: ${ekey}`);
-      },
-
-       onExpire() {
-          verified.value = false;
-          token.value = '';
-          eKey.value = '';
-          expired.value = true;
-          console.log('Expired');
-        },
-
-        onChallengeExpire() {
-          verified.value = false;
-          token.value = '';
-          eKey.value = '';
-          expired.value = true;
-          console.log('Challenge expired');
-        },
-
-         onError(err) {
-          token.value = '';
-          eKey.value = '';
-          error.value = err;
-          console.log(`Error: ${err}`);
-        },
-
-       onSubmit() {
-         execute();
-        },
       // handle file once uploaded 
       handleFile() {
         this.file = this.$refs.file.files[0];
@@ -89,28 +57,6 @@ import VueHcaptcha from '@hcaptcha/vue3-hcaptcha';
         //response = await response.json();
         return response;
       },
-      hsubmit(){
-      this.$refs.hCaptchaRef.execute();
-      },
-      verifyCaptcha(token) {
-      this.formData.hCaptchaToken = token;
-
-      if (this.formData.hCaptchaToken) {
-        fetch(process.env.VUE_APP_BASE_URL, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(this.formData),
-        })
-          .then(() => {
-            this.valid = true;
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      }
-    },
       
 
       // subbmit 
@@ -244,37 +190,14 @@ import VueHcaptcha from '@hcaptcha/vue3-hcaptcha';
         </v-text-field>
         
         <v-btn @click="submit" class="submit" type="submit">submit</v-btn>
+        <hCaptcha/>
         <!-- listen to verify event emited by the recaptcha component -->
       </form>
       <div>
-      <div >
-    
 
-    <div v-if="verified" id="verified">
-        <h1>Successfully Verified!</h1>
-        <p>token: {{ token }}</p>
-        <p>eKey: {{ eKey }}</p>
-    </div>
-
-    <div v-if="expired" id="expired">
-        <h1>Challenge expired!</h1>
-    </div>
-
-    <div v-if="error" id="error">
-        <h1>Error:</h1>
-        <p>{{ error }}</p>
-    </div>
-
-</div>
       </div>
     </v-container>
-    <vue-hcaptcha
-        sitekey=process.env.SITEKEY
-        size="invisible"
-        ref="hCaptchaRef"
-        @verify="verifyCaptcha"
-    />
-    <button @click="submit">submit</button>
+    
   </template>
   
   <style>

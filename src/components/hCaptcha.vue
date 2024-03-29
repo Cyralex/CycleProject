@@ -65,60 +65,11 @@ async function onAsyncExecute() {
             <h1>Error:</h1>
             <p>{{ error }}</p>
         </div>
-
-        <hr width="100%">
-
-        <h3>Normal checkbox (default props)</h3>
         <vue-hcaptcha
             sitekey=process.env.SITEKEY
             @verify="onVerify"
             @expired="onExpire"
             @challenge-expired="onChallengeExpire"
-            @error="onError"
-        />
-
-        <hr width="100%">
-
-        <h3>Compact and dark theme checkbox</h3>
-        <vue-hcaptcha
-            sitekey=process.env.SITEKEY
-            size="compact"
-            theme="dark"
-            @verify="onVerify"
-            @expired="onExpire"
-            @challenge-expired="onChallengeExpire"
-            @error="onError"
-        />
-
-        <hr width="100%">
-
-        <h3>Invisible checkbox - triggered programmatically by a button</h3>
-        <vue-hcaptcha
-            ref="invisibleHcaptcha"
-            sitekey=process.env.SITEKEY
-            size="invisible"
-            theme="dark"
-            @verify="onVerify"
-            @expired="onExpire"
-            @challenge-expired="onExpire"
-            @error="onError"
-        />
-
-        <button @click="onSubmit">
-            Click Here!
-        </button>
-
-        <hr width="100%">
-
-        <button @click="onAsyncExecute">
-          Async execute
-        </button>
-        <vue-hcaptcha
-            ref="asyncExecuteHCaptcha"
-            sitekey=process.env.SITEKEY
-            @verify="onVerify"
-            @expired="onExpire"
-            @challengeExpired="onChallengeExpire"
             @error="onError"
         />
     </div>
