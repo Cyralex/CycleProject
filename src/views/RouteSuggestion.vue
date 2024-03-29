@@ -1,7 +1,102 @@
-<template>
-  <v-container>
-    <div v-if="success">
-      <v-alert
+
+<script setup>
+import hCaptcha from '@/components/hCaptcha.vue'
+</script>  
+<script>
+
+
+  export default {
+    componenets:{
+    },
+    name: "routeSuggestion",
+    data() {
+      
+    },
+  
+    methods:{
+      // handle file once uploaded 
+      handleFile() {
+        this.file = this.$refs.file.files[0];
+        console.log(this.file);
+        
+      },
+      
+      // send data to backend 
+      async postSuggestion()
+      { 
+
+        const blob = new Blob([this.file], { type: "text/plain" });
+        const text = await blob.text();
+        console.log(text);
+        
+
+       /* const formData = new FormData();
+        formData.append('name', this.name);
+        formData.append('route', text);
+        console.log(formData);*/
+
+        
+
+        let response = await fetch(`${process.env.VUE_APP_BASE_URL}/v1/email/`, {
+          method: "POST",
+          headers: 
+          { 
+            "Content-Type": "application/json",
+             
+          },
+          body: JSON.stringify({
+            name: this.name,
+            file: text,
+            poi: this.poi,
+            email: this.email
+
+          })
+          
+        })
+        
+        //response = await response.json();
+        return response;
+      },
+      
+
+      // subbmit 
+      async submit(){ 
+        try{
+          if(!this.file || !this.name){
+            this.valid=false;
+            return;
+          }else{
+            this.valid=true;
+          }
+
+          const response = await this.postSuggestion(
+            this.file,
+            this.name
+          );       
+          console.log(response);   
+            //setTimeout(() => {
+            //location.reload();
+        //}, 1000);
+        if (response.status === 200){
+          this.success = true;
+        }
+        
+        }
+        catch(e){
+          console.log("error:\n");
+          console.log(e);
+
+        }     
+
+      }
+    },
+  };
+  
+  </script>
+  <template>
+    <v-container>
+      <div v-if="success">
+        <v-alert 
         class="success"
         type="success"
         title="Suggestion Submitted!"
@@ -96,96 +191,10 @@
 
       <v-btn @click="submit" class="submit" type="submit">submit</v-btn>
 
-      <button @click="recaptcha">Execute recaptcha</button>
+      <hCaptcha/>
     </form>
   </v-container>
 </template>
-
-<script>
-import Vue from "vue";
-import { VueReCaptcha } from "vue-recaptcha-v3";
-
-export default {
-  name: "routeSuggestion",
-  data() {
-    return {
-      name: "",
-      file: null,
-      success: false,
-      email: "",
-      poi: "",
-      valid: true,
-    };
-  },
-
-  methods: {
-    async recaptcha() {
-      // (optional) Wait until recaptcha has been loaded.
-      await this.$recaptchaLoaded();
-    },
-    // handle file once uploaded
-    handleFile() {
-      this.file = this.$refs.file.files[0];
-      console.log(this.file);
-    },
-
-    // send data to backend
-    async postSuggestion() {
-      const blob = new Blob([this.file], { type: "text/plain" });
-      const text = await blob.text();
-      console.log(text);
-
-      /* const formData = new FormData();
-        formData.append('name', this.name);
-        formData.append('route', text);
-        console.log(formData);*/
-
-      let response = await fetch(`${process.env.VUE_APP_BASE_URL}/v1/email/`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name: this.name,
-          file: text,
-          poi: this.poi,
-          email: this.email,
-        }),
-      });
-
-      //response = await response.json();
-      return response;
-    },
-
-    // subbmit
-    async submit() {
-      try {
-        if (!this.file || !this.name) {
-          this.valid = false;
-          return;
-        } else {
-          this.valid = true;
-        }
-
-        const response = await this.postSuggestion(this.file, this.name);
-        console.log(response);
-        //setTimeout(() => {
-        //location.reload();
-        //}, 1000);
-        //const token = await this.$recaptcha('submit');
-
-        if (response.status === 200) {
-          console.log(response.status);
-          this.success = true;
-        }
-      } catch (e) {
-        console.log("error:\n");
-        console.log(e);
-      }
-    },
-  },
-};
-</script>
 
 <style>
 .formContainer {
