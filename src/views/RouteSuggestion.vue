@@ -102,89 +102,30 @@ import hCaptcha from '@/components/hCaptcha.vue'
         class="success"
         type="success"
         title="Suggestion Submitted!"
-        text="Your route has been submitted for review by the City of Bolivar!">
-      </v-alert>
-      </div>
-
-      <div v-if="!valid" >
-        <v-alert class="invalidForm"
-          type="warning"
-          title="Invalid Form Input"
-          text="Please include GPX file and name of route."
-          width="max"
-        >     
-
-        </v-alert>
-
-      </div>
-
-      <v-container class="description" v-show="!success">
-        <v-card
-          width="max"
-          prepend-icon="mdi-map-marker-outline"
-          color="#083a8c"
-          class="justify-center"
-        >
-          <template v-slot:title> Submit a route! </template>
-
-          <v-card-text>
-            Please use the form below to submit a route suggestion for the cycling website!
-            <br>
-            Your submission will be reviewed by the City of Bolivar.
-            <br>
-            Please include the name of your route, associated GPX file, points of interest you would like to include along the route, and optionally your contact information. 
-          </v-card-text>
-        </v-card>        
-      </v-container>
-  
-      <form v-show="!success"
-        class="formContainer"
-        @submit.prevent="handleSubmit"
-        enctype="multipart/form-data"
-        id="form"
-        name="form"
-        ref="form"
+        text="Your route has been submitted for review by the City of Bolivar!"
       >
-        <v-text-field
-          variant="outlined"
-          label="Route Name"
-          prepend-icon="mdi-bike"
-          v-model="name"
-          name="name"
-          id="name"
-          required
-        >
-        </v-text-field>
-  
-        <v-file-input
-          label="Upload .gpx File"
-          variant="outlined"
-          type="file"
-          ref="file"
-          @change="handleFile()"
-          required
-          name="file"
-          accept=".gpx"
-        ></v-file-input>
+      </v-alert>
+    </div>
 
-        <v-text-field
-          variant="outlined"
-          label="Points of Interest"
-          prepend-icon="mdi-map-marker-radius"
-          v-model="poi"
-          name="poi"
-          id="poi"          
-        ></v-text-field>
+    <div v-if="!valid">
+      <v-alert
+        class="invalidForm"
+        type="warning"
+        title="Invalid Form Input"
+        text="Please include GPX file and name of route."
+        width="max"
+      >
+      </v-alert>
+    </div>
 
-        <v-text-field
-          variant="outlined"
-          label="Email"
-          prepend-icon="mdi-email"
-          v-model="email"
-          name="email"
-          id="email"
-          type="email"
-          
+    <v-container class="description" v-show="!success">
+      <v-card
+        width="max"
+        prepend-icon="mdi-map-marker-outline"
+        color="#083a8c"
+        class="justify-center"
+      >
+        <template v-slot:title> Submit a route! </template>
 
         >
         </v-text-field>

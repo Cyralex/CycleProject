@@ -90,6 +90,20 @@
               </v-row>
               <v-row justify="center">
                 <v-col cols="9">
+                  <v-textarea
+                    label="Points of Interest"
+                    prepend-icon="fa:fas fa-search"
+                    class="routeDesc"
+                    type="text"
+                    variant="outlined"
+                    name="poi"
+                    v-model="poi"
+                    :rules="inputRules"
+                  ></v-textarea>
+                </v-col>
+              </v-row>
+              <v-row justify="center">
+                <v-col cols="9">
                   <v-file-input
                     label="Upload .gpx File"
                     variant="outlined"
@@ -102,8 +116,15 @@
                   ></v-file-input>
                 </v-col>
               </v-row>
+
               <v-row justify="center">
-                <v-btn width="200%" type="submit" flat>submit</v-btn>
+                <v-btn
+                  width="200%"
+                  type="submit"
+                  @click="isActive.value = false"
+                  flat
+                  >submit</v-btn
+                >
               </v-row>
               <v-row>
                 <v-spacer></v-spacer>
@@ -127,8 +148,7 @@
       :search="search"
     >
       <template #item.name="{ item }">
-        <router-link :to="'/route/' + item.id"
-          >
+        <router-link :to="'/route/' + item.id">
           {{ item.name }}
         </router-link>
       </template>
@@ -145,13 +165,11 @@
               <v-form
                 class="routeForm"
                 validate-on="submit lazy"
-                @submit.prevent="submitEdit"
+                @submit.prevent="submitEdit(item)"
                 ref="editForm"
               >
                 <v-row justify="center">
                   <v-col cols="9">
-                    <v-card-text>ID: {{ item.id }}</v-card-text>
-                    <v-card-text>Name: {{ item.name }}</v-card-text>
                     <v-text-field
                       prepend-icon="mdi-map-marker"
                       v-model="item.name"
@@ -187,24 +205,26 @@
                       :rules="inputRules"
                       required
                     ></v-textarea>
-                    <v-row justify="center">
-                      <div class="text-h5">Upload a new GPX file</div>
-                    </v-row>
+                    <v-textarea
+                      label="Route POI"
+                      class="routePOI"
+                      type="text"
+                      variant="outlined"
+                      name="routeDesc"
+                      v-model="item.poi"
+                      :rules="inputRules"
+                      prepend-icon="fa:fas fa-search"
+                      required
+                    ></v-textarea>
 
-                    <v-row>
-                      <v-file-input
-                        label="Upload .gpx File"
-                        variant="outlined"
-                        accept=".gpx"
-                        type="file"
-                        ref="file"
-                        :rules="inputRules"
-                        prepend-icon="mdi-map"
-                        required
-                      ></v-file-input>
-                    </v-row>
                     <v-row justify="center">
-                      <v-btn width="200%" type="submit" flat>submit</v-btn>
+                      <v-btn
+                        width="200%"
+                        type="submit"
+                        @click="isActive.value = false"
+                        flat
+                        >submit</v-btn
+                      >
                     </v-row>
                   </v-col>
                 </v-row>
@@ -215,10 +235,7 @@
       </template>
       <template #item.del="{ item }">
         <div class="tableBtn">
-          <v-btn
-            icon="mdi-trash-can"
-            @click="del(item.id)"
-          /><!-- add download functionality -->
+          <v-btn icon="mdi-trash-can" @click="del(item.id)" />
         </div>
       </template>
     </v-data-table>
@@ -265,22 +282,23 @@ let file = ref();
 let gpx = ref();
 let newRoute = ref();
 let elevation = ref();
-
-let erouteName = ref("");
-let erouteLength = ref();
-let eterrain = ref("");
-let edifficulty = ref("");
-let erouteDesc = ref("");
-let efile = ref();
-let egpx = ref();
-let enewRoute = ref();
-let eelevation = ref();
-
+let poi = ref();
 let editForm = ref();
 
 //methods
-let submitEdit = async (event) => {
-  console.log(editForm.value);
+let submitEdit = async (item) => {
+  console.log(editForm);
+  console.log(item);
+  let updatedRoute = {
+    id: item.id,
+    name: item.name,
+    difficulty: item.difficulty,
+    terrain: item.terrain,
+    desc: item.desc,
+    poi: item.poi,
+  };
+  console.log(updatedRoute, "in table", updatedRoute.id);
+  routeStore.updateRoute(updatedRoute);
 };
 
 let submit = async (event) => {
@@ -298,6 +316,7 @@ let submit = async (event) => {
         terrain: terrain.value,
         desc: routeDesc.value,
         elevation: elevation.value,
+        poi: poi.value,
       };
 
       routeStore.addRoute(routeToAdd);
