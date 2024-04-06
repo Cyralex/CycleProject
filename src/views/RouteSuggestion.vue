@@ -1,6 +1,7 @@
 
 <script setup>
 import hCaptcha from '@/components/hCaptcha.vue'
+import verified from '@/components/hCaptcha.vue'
 </script>  
 <script>
 
@@ -188,9 +189,9 @@ import hCaptcha from '@/components/hCaptcha.vue'
         type="email"
       >
       </v-text-field>
-
+      <div v-if="verified">
       <v-btn @click="submit" class="submit" type="submit">submit</v-btn>
-
+      </div>
       <hCaptcha/>
     </form>
   </v-container>

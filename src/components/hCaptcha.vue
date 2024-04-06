@@ -66,7 +66,7 @@ async function onAsyncExecute() {
             <p>{{ error }}</p>
         </div>
         <vue-hcaptcha
-            sitekey=process.env.SITEKEY
+            sitekey="61e05036-5aa4-47a1-9e3e-9109ab2c1762"
             @verify="onVerify"
             @expired="onExpire"
             @challenge-expired="onChallengeExpire"
