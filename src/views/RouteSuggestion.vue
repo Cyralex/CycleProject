@@ -1,7 +1,7 @@
 
 <script setup>
 import hCaptcha from '@/components/hCaptcha.vue'
-import verified from '@/components/hCaptcha.vue'
+const show= false;
 </script>  
 <script>
 
@@ -15,6 +15,10 @@ import verified from '@/components/hCaptcha.vue'
     },
   
     methods:{
+      showsub(x){
+        show= x;
+      },
+      
       // handle file once uploaded 
       handleFile() {
         this.file = this.$refs.file.files[0];
@@ -63,26 +67,30 @@ import verified from '@/components/hCaptcha.vue'
       // subbmit 
       async submit(){ 
         try{
-          if(!this.file || !this.name){
-            this.valid=false;
-            return;
-          }else{
-            this.valid=true;
-          }
+      
+          if(verified.value==true){
+            const very = true;
+            if(!this.file || !this.name){
+              this.valid=false;
+              return;
+            }else{
+              this.valid=true;
+            }
 
-          const response = await this.postSuggestion(
-            this.file,
-            this.name
-          );       
-          console.log(response);   
-            //setTimeout(() => {
-            //location.reload();
-        //}, 1000);
-        if (response.status === 200){
-          this.success = true;
+            const response = await this.postSuggestion(
+              this.file,
+              this.name
+            );       
+            console.log(response);   
+              //setTimeout(() => {
+              //location.reload();
+          //}, 1000);
+          if (response.status === 200){
+            this.success = true;
+          }
         }
-        
-        }
+          
+          }
         catch(e){
           console.log("error:\n");
           console.log(e);
@@ -189,9 +197,7 @@ import verified from '@/components/hCaptcha.vue'
         type="email"
       >
       </v-text-field>
-      <div v-if="verified">
-      <v-btn @click="submit" class="submit" type="submit">submit</v-btn>
-      </div>
+      <v-btn v-show="show.value" @click="submit" class="submit" type="submit">submit</v-btn>
       <hCaptcha/>
     </form>
   </v-container>

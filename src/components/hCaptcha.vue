@@ -2,19 +2,22 @@
 import { ref } from "vue";
 import VueHcaptcha from "@hcaptcha/vue3-hcaptcha";
 
+
 const verified = ref(false);
 const expired = ref(false);
 const token = ref("");
 const eKey = ref("");
 const error = ref("");
-const invisibleHcaptcha = ref(null);
-const asyncExecuteHCaptcha = ref(null);
+const show = false;
+
 
 function onVerify(tokenStr, ekey) {
     verified.value = true;
     token.value = tokenStr;
     eKey.value = ekey;
     console.log(`Callback token: ${tokenStr}, ekey: ${ekey}`);
+    show = true;
+    this.$emit("showsub", show);
 }
 function onExpire() {
     verified.value = false;
@@ -36,25 +39,14 @@ function onError(err) {
     error.value = err;
     console.log(`Error: ${err}`);
 }
-function onSubmit() {
-    console.log('Submitting the invisible hCaptcha');
-    invisibleHcaptcha.value.execute();
-}
-
-async function onAsyncExecute() {
-  const res = await asyncExecuteHCaptcha.value.executeAsync();
-  console.log("Async execute response", res);
-}
 </script>
-
 <template>
     <div id="App">
     
 
         <div v-if="verified" id="verified">
-            <h1>Successfully Verified!</h1>
-            <p>token: {{ token }}</p>
-            <p>eKey: {{ eKey }}</p>
+            <h1>Successfully Verified</h1>
+            
         </div>
 
         <div v-if="expired" id="expired">
