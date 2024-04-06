@@ -1,6 +1,7 @@
 
 <script setup>
 import hCaptcha from '@/components/hCaptcha.vue'
+//show is a bool to alter the submit button to hide it for when it 
 const show= false;
 </script>  
 <script>
@@ -15,6 +16,7 @@ const show= false;
     },
   
     methods:{
+      //added to this to try to extend the show var to hcaptcha to alter the submit button to only go after the hcaptcha is done.
       showsub(x){
         show= x;
       },
