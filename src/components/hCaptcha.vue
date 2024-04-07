@@ -8,7 +8,7 @@ const expired = ref(false);
 const token = ref("");
 const eKey = ref("");
 const error = ref("");
-const show = false;
+
 
 
 function onVerify(tokenStr, ekey) {
@@ -16,8 +16,6 @@ function onVerify(tokenStr, ekey) {
     token.value = tokenStr;
     eKey.value = ekey;
     console.log(`Callback token: ${tokenStr}, ekey: ${ekey}`);
-    show = true;
-    this.$emit("showsub", show);
 }
 function onExpire() {
     verified.value = false;

@@ -1,8 +1,47 @@
 
 <script setup>
-import hCaptcha from '@/components/hCaptcha.vue'
+import { ref } from "vue";
+import VueHcaptcha from "@hcaptcha/vue3-hcaptcha";
+
+
+const verified = ref(false);
+const expired = ref(false);
+const token = ref("");
+const eKey = ref("");
+const error = ref("");
+const very = false;
+
+
+
+function onVerify(tokenStr, ekey) {
+    verified.value = true;
+    very= true;
+    token.value = tokenStr;
+    eKey.value = ekey;
+    console.log(`Callback token: ${tokenStr}, ekey: ${ekey}`);
+}
+function onExpire() {
+    verified.value = false;
+    token.value = null;
+    eKey.value = null;
+    expired.value = true;
+    console.log('Expired');
+}
+function onChallengeExpire() {
+    verified.value = false;
+    token.value = null;
+    eKey.value = null;
+    expired.value = true;
+    console.log('Challenge expired');
+}
+function onError(err) {
+    token.value = null;
+    eKey.value = null;
+    error.value = err;
+    console.log(`Error: ${err}`);
+}
 //show is a bool to alter the submit button to hide it for when it 
-const show= false;
+
 </script>  
 <script>
 
@@ -17,9 +56,6 @@ const show= false;
   
     methods:{
       //added to this to try to extend the show var to hcaptcha to alter the submit button to only go after the hcaptcha is done.
-      showsub(x){
-        show= x;
-      },
       
       // handle file once uploaded 
       handleFile() {
@@ -199,8 +235,31 @@ const show= false;
         type="email"
       >
       </v-text-field>
-      <v-btn v-show="show.value" @click="submit" class="submit" type="submit">submit</v-btn>
-      <hCaptcha/>
+      <v-btn v-if="verified" @click="submit" class="submit" type="submit">submit</v-btn>
+      <div id="App">
+    
+
+    <div v-if="verified" id="verified">
+        <h1>Successfully Verified</h1>
+        
+    </div>
+
+    <div v-if="expired" id="expired">
+        <h1>Challenge expired!</h1>
+    </div>
+
+    <div v-if="error" id="error">
+        <h1>Error:</h1>
+        <p>{{ error }}</p>
+    </div>
+    <vue-hcaptcha
+        sitekey="61e05036-5aa4-47a1-9e3e-9109ab2c1762"
+        @verify="onVerify"
+        @expired="onExpire"
+        @challenge-expired="onChallengeExpire"
+        @error="onError"
+    />
+</div>
     </form>
   </v-container>
 </template>
@@ -216,5 +275,27 @@ const show= false;
 .success {
   padding: 10px;
   margin: 15px;
+}
+body {
+    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+#App {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+#verified {
+    color: white;
+    background: green;
+}
+
+#error {
+    color: white;
+    background: red;
 }
 </style>
