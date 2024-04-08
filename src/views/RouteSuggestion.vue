@@ -9,13 +9,12 @@ const expired = ref(false);
 const token = ref("");
 const eKey = ref("");
 const error = ref("");
-const very = false;
+
 
 
 
 function onVerify(tokenStr, ekey) {
     verified.value = true;
-    very= true;
     token.value = tokenStr;
     eKey.value = ekey;
     console.log(`Callback token: ${tokenStr}, ekey: ${ekey}`);
@@ -51,7 +50,14 @@ function onError(err) {
     },
     name: "routeSuggestion",
     data() {
-      
+      return{
+        name:"",
+        file: null,
+        success: false,
+        email: "",
+        poi: "",
+        valid: true,
+      };
     },
   
     methods:{
@@ -107,7 +113,6 @@ function onError(err) {
         try{
       
           if(verified.value==true){
-            const very = true;
             if(!this.file || !this.name){
               this.valid=false;
               return;
@@ -215,7 +220,6 @@ function onError(err) {
         name="file"
         accept=".gpx"
       ></v-file-input>
-
       <v-text-field
         variant="outlined"
         label="Points of Interest"
@@ -236,13 +240,9 @@ function onError(err) {
       >
       </v-text-field>
       <v-btn v-if="verified" @click="submit" class="submit" type="submit">submit</v-btn>
-      <div id="App">
-    
-
-    <div v-if="verified" id="verified">
-        <h1>Successfully Verified</h1>
-        
-    </div>
+      
+    </form>
+    <div id="App">
 
     <div v-if="expired" id="expired">
         <h1>Challenge expired!</h1>
@@ -260,8 +260,8 @@ function onError(err) {
         @error="onError"
     />
 </div>
-    </form>
   </v-container>
+  
 </template>
 
 <style>
@@ -285,8 +285,8 @@ body {
 #App {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    text-align: center;
+    align-items: left;
+    text-align: left;
 }
 
 #verified {
