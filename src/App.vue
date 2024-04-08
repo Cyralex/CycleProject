@@ -1,3 +1,4 @@
+<!-- The main bootstrapping file for the client/frontend -->
 <template>
   <v-app>
     <v-main>

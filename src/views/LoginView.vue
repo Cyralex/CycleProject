@@ -1,7 +1,9 @@
+<!-- contains content for /login -->
 <template>
   <div style="display: flex; justify-content: center">
     <v-btn @click="logout" flat>Logout</v-btn>
   </div>
+  <!-- Login form -->
   <v-row justify="center">
     <v-col cols="3">
       <v-form class="form" @submit.prevent="submit">
@@ -13,6 +15,7 @@
           :rules="inputRules"
           required
         ></v-text-field>
+        <!-- hidden text, btn to reveal if clicked -->
         <v-text-field
           label="Password"
           variant="outlined"
@@ -38,6 +41,7 @@ const router = useRouter();
 let inputRules = reactive([
   (v) => v.length > 0 || "Please add a value to this field",
 ]);
+
 let login = async () => {
   let up = {
     username: username.value,
@@ -57,7 +61,6 @@ let login = async () => {
   } else {
     alert("Login failed");
   }
-  // Log the headers or access specific header values
 };
 let logout = async () => {
   let response = await fetch(`${process.env.VUE_APP_BASE_URL}/v1/auth/logout`, {
@@ -74,7 +77,6 @@ let logout = async () => {
   } else {
     alert("Logout failed");
   }
-  // Lo
 };
 let submit = () => {
   login();

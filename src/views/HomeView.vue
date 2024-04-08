@@ -1,7 +1,9 @@
 <template>
+  <!-- Main map -->
   <v-container>
     <Map />
   </v-container>
+  <!-- Route cards w/ filters -->
   <v-container>
     <div class="search-filters">
       <v-text-field
@@ -73,7 +75,7 @@
       </v-col>
     </v-row>
   </v-container>
-
+<!-- data table -->
   <RoutesTable />
   <br />
 </template>
