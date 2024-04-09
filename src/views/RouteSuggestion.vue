@@ -18,6 +18,7 @@ function onVerify(tokenStr, ekey) {
     token.value = tokenStr;
     eKey.value = ekey;
     console.log(`Callback token: ${tokenStr}, ekey: ${ekey}`);
+    expired.value = false; 
 }
 function onExpire() {
     verified.value = false;
@@ -108,11 +109,11 @@ function onError(err) {
       },
       
 
-      // subbmit 
+      // submit 
       async submit(){ 
         try{
       
-          if(verified.value==true){
+          
             if(!this.file || !this.name){
               this.valid=false;
               return;
@@ -125,13 +126,11 @@ function onError(err) {
               this.name
             );       
             console.log(response);   
-              //setTimeout(() => {
-              //location.reload();
-          //}, 1000);
+              
           if (response.status === 200){
             this.success = true;
           }
-        }
+        
           
           }
         catch(e){
