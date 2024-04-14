@@ -1,8 +1,149 @@
-<!-- Contains content for /routesuggestion -->
-<template>
-  <v-container>
-    <div v-if="success">
-      <v-alert
+
+<script setup>
+import { ref } from "vue";
+import VueHcaptcha from "@hcaptcha/vue3-hcaptcha";
+
+
+const verified = ref(false);
+const expired = ref(false);
+const token = ref("");
+const eKey = ref("");
+const error = ref("");
+const very = false;
+
+
+
+function onVerify(tokenStr, ekey) {
+    verified.value = true;
+    very= true;
+    token.value = tokenStr;
+    eKey.value = ekey;
+    console.log(`Callback token: ${tokenStr}, ekey: ${ekey}`);
+}
+function onExpire() {
+    verified.value = false;
+    token.value = null;
+    eKey.value = null;
+    expired.value = true;
+    console.log('Expired');
+}
+function onChallengeExpire() {
+    verified.value = false;
+    token.value = null;
+    eKey.value = null;
+    expired.value = true;
+    console.log('Challenge expired');
+}
+function onError(err) {
+    token.value = null;
+    eKey.value = null;
+    error.value = err;
+    console.log(`Error: ${err}`);
+}
+//show is a bool to alter the submit button to hide it for when it 
+
+</script>  
+<script>
+
+
+  export default {
+    componenets:{
+    },
+    name: "routeSuggestion",
+    data() {
+      
+    },
+  
+    methods:{
+      //added to this to try to extend the show var to hcaptcha to alter the submit button to only go after the hcaptcha is done.
+      
+      // handle file once uploaded 
+      handleFile() {
+        this.file = this.$refs.file.files[0];
+        console.log(this.file);
+        
+      },
+      
+      // send data to backend 
+      async postSuggestion()
+      { 
+
+        const blob = new Blob([this.file], { type: "text/plain" });
+        const text = await blob.text();
+        console.log(text);
+        
+
+       /* const formData = new FormData();
+        formData.append('name', this.name);
+        formData.append('route', text);
+        console.log(formData);*/
+
+        
+
+        let response = await fetch(`${process.env.VUE_APP_BASE_URL}/v1/email/`, {
+          method: "POST",
+          headers: 
+          { 
+            "Content-Type": "application/json",
+             
+          },
+          body: JSON.stringify({
+            name: this.name,
+            file: text,
+            poi: this.poi,
+            email: this.email
+
+          })
+          
+        })
+        
+        //response = await response.json();
+        return response;
+      },
+      
+
+      // subbmit 
+      async submit(){ 
+        try{
+      
+          if(verified.value==true){
+            const very = true;
+            if(!this.file || !this.name){
+              this.valid=false;
+              return;
+            }else{
+              this.valid=true;
+            }
+
+            const response = await this.postSuggestion(
+              this.file,
+              this.name
+            );       
+            console.log(response);   
+              //setTimeout(() => {
+              //location.reload();
+          //}, 1000);
+          if (response.status === 200){
+            this.success = true;
+          }
+        }
+          
+          }
+        catch(e){
+          console.log("error:\n");
+          console.log(e);
+
+        }     
+
+      }
+    },
+  };
+  
+  </script>
+  <template>
+    <v-container>
+      <div v-if="success">
+        <v-alert 
         class="success"
         type="success"
         title="Suggestion Submitted!"
@@ -94,99 +235,34 @@
         type="email"
       >
       </v-text-field>
+      <v-btn v-if="verified" @click="submit" class="submit" type="submit">submit</v-btn>
+      <div id="App">
+    
 
-      <v-btn @click="submit" class="submit" type="submit">submit</v-btn>
+    <div v-if="verified" id="verified">
+        <h1>Successfully Verified</h1>
+        
+    </div>
 
-      <button @click="recaptcha">Execute recaptcha</button>
+    <div v-if="expired" id="expired">
+        <h1>Challenge expired!</h1>
+    </div>
+
+    <div v-if="error" id="error">
+        <h1>Error:</h1>
+        <p>{{ error }}</p>
+    </div>
+    <vue-hcaptcha
+        sitekey="61e05036-5aa4-47a1-9e3e-9109ab2c1762"
+        @verify="onVerify"
+        @expired="onExpire"
+        @challenge-expired="onChallengeExpire"
+        @error="onError"
+    />
+</div>
     </form>
   </v-container>
 </template>
-
-<script>
-import Vue from "vue";
-import { VueReCaptcha } from "vue-recaptcha-v3";
-
-export default {
-  name: "routeSuggestion",
-  data() {
-    return {
-      name: "",
-      file: null,
-      success: false,
-      email: "",
-      poi: "",
-      valid: true,
-    };
-  },
-
-  methods: {
-    async recaptcha() {
-      // (optional) Wait until recaptcha has been loaded.
-      await this.$recaptchaLoaded();
-    },
-    // handle file once uploaded
-    handleFile() {
-      this.file = this.$refs.file.files[0];
-      console.log(this.file);
-    },
-
-    // send data to backend
-    async postSuggestion() {
-      const blob = new Blob([this.file], { type: "text/plain" });
-      const text = await blob.text();
-      console.log(text);
-
-      /* const formData = new FormData();
-        formData.append('name', this.name);
-        formData.append('route', text);
-        console.log(formData);*/
-
-      let response = await fetch(`${process.env.VUE_APP_BASE_URL}/v1/email/`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name: this.name,
-          file: text,
-          poi: this.poi,
-          email: this.email,
-        }),
-      });
-
-      //response = await response.json();
-      return response;
-    },
-
-    // subbmit
-    async submit() {
-      try {
-        if (!this.file || !this.name) {
-          this.valid = false;
-          return;
-        } else {
-          this.valid = true;
-        }
-
-        const response = await this.postSuggestion(this.file, this.name);
-        console.log(response);
-        //setTimeout(() => {
-        //location.reload();
-        //}, 1000);
-        //const token = await this.$recaptcha('submit');
-
-        if (response.status === 200) {
-          console.log(response.status);
-          this.success = true;
-        }
-      } catch (e) {
-        console.log("error:\n");
-        console.log(e);
-      }
-    },
-  },
-};
-</script>
 
 <style>
 .formContainer {
@@ -199,5 +275,27 @@ export default {
 .success {
   padding: 10px;
   margin: 15px;
+}
+body {
+    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+#App {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+#verified {
+    color: white;
+    background: green;
+}
+
+#error {
+    color: white;
+    background: red;
 }
 </style>

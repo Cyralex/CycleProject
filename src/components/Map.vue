@@ -13,13 +13,16 @@
             layer-type="base"
             name="OpenStreetMap"
           ></l-tile-layer>
+          <!-- Routes displayed on map -->
           <div v-if="routes">
             <div :key="r.name" v-for="r in routes">
               <LPolyline
                 :lat-lngs="poly(r.route.features[0].geometry.coordinates)"
                 :color="r.color"
                 weight="4"
-                ><l-popup>
+                >
+                <!-- popup when route is clicked -->
+                <l-popup>
                   <router-link class="popup" :to="'/route/' + r.id">
                     <v-container>
                       <h3 class="nameh3">{{ r.name }}</h3>
@@ -70,7 +73,7 @@ let routes = computed(() =>
   }))
 );
 let zoom = ref(12);
-let markerLatLng = [
+let markerLatLng = [ //unused
   [37.5997592, -93.4],
   [37.5997592, -93.4091279],
 ];
@@ -87,7 +90,7 @@ let poly = (arr) => {
 let count = 0;
 let randColor = () => {
   const rand = Math.floor(Math.random() * 6);
-  const colors = [
+  const colors = [ //colors used to style routes on map
     "rgb(60, 140, 255)",
     "rgb(255, 0, 255)",
     "rgb(255, 215, 0)",

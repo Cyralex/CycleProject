@@ -273,6 +273,8 @@ let del = async (id) => {
 };
 let add = async () => {};
 let edit = async (id) => {};
+
+//used to submit values to backend
 let routeName = ref("");
 let routeLength = ref();
 let terrain = ref("");
@@ -287,8 +289,6 @@ let editForm = ref();
 
 //methods
 let submitEdit = async (item) => {
-  console.log(editForm);
-  console.log(item);
   let updatedRoute = {
     id: item.id,
     name: item.name,
@@ -297,7 +297,6 @@ let submitEdit = async (item) => {
     desc: item.desc,
     poi: item.poi,
   };
-  console.log(updatedRoute, "in table", updatedRoute.id);
   routeStore.updateRoute(updatedRoute);
 };
 
