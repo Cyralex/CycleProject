@@ -56,7 +56,6 @@
 </template>
 <script setup>
 // stylesheet
-import "@/css/routes-table.css";
 import { useRouteStore } from "@/store/index.js";
 import { storeToRefs } from "pinia";
 import { ref, reactive, computed } from "vue";
@@ -111,3 +110,17 @@ let downloadGPX = async (file, routeName) => {
   pom.click();
 };
 </script>
+
+<style>
+.gpxBtn {
+  scale: 85%;
+  color: blue;
+}
+
+@media (max-width: 600px) {
+  .routes-table {
+    padding: 0px;
+    display: block;
+  }
+}
+</style>

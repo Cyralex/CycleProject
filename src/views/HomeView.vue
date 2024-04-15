@@ -62,7 +62,7 @@
       <v-container>
         <v-row justify="center">
           <v-col cols="6">
-            <h1 v-if="!filteredRoutes.length" style="text-align: center">
+            <h1 v-if="!filteredRoutes" style="text-align: center">
               No route found
             </h1>
           </v-col>
@@ -128,7 +128,9 @@ const filteredRoutes = computed(() => {
 
   // Filter by elevation gain
   if (maxElevation.value) {
-    filtered = filtered.filter(route => route.elevation <= maxElevation.value);
+    filtered = filtered.filter(
+      (route) => route.elevation <= maxElevation.value
+    );
   }
 
   return filtered;
