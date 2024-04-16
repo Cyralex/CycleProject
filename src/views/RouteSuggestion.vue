@@ -18,6 +18,7 @@ function onVerify(tokenStr, ekey) {
     token.value = tokenStr;
     eKey.value = ekey;
     console.log(`Callback token: ${tokenStr}, ekey: ${ekey}`);
+    expired.value = false; 
 }
 function onExpire() {
     verified.value = false;
@@ -108,11 +109,11 @@ function onError(err) {
       },
       
 
-      // subbmit 
+      // submit 
       async submit(){ 
         try{
       
-          if(verified.value==true){
+          
             if(!this.file || !this.name){
               this.valid=false;
               return;
@@ -125,13 +126,11 @@ function onError(err) {
               this.name
             );       
             console.log(response);   
-              //setTimeout(() => {
-              //location.reload();
-          //}, 1000);
+              
           if (response.status === 200){
             this.success = true;
           }
-        }
+        
           
           }
         catch(e){
@@ -154,7 +153,7 @@ function onError(err) {
         title="Suggestion Submitted!"
         text="Your route has been submitted for review by the City of Bolivar!"
       >
-      </v-alert>
+      </v-alert><br>
     </div>
 
     <div v-if="!valid">
@@ -245,12 +244,25 @@ function onError(err) {
     <div id="App">
 
     <div v-if="expired" id="expired">
-        <h1>Challenge expired!</h1>
+      <v-alert 
+        class="expired"
+        type="info"
+        title="Challenged Expired"
+        text="Your challenge has expired. Please verify again that you are human."
+      >
+      </v-alert>
+
     </div>
 
     <div v-if="error" id="error">
-        <h1>Error:</h1>
-        <p>{{ error }}</p>
+
+      <v-alert 
+        class="error"
+        type="error"
+        title="Error"
+        text="{{ error }}"
+      >
+      </v-alert>        
     </div>
     <vue-hcaptcha
         sitekey="61e05036-5aa4-47a1-9e3e-9109ab2c1762"
@@ -294,8 +306,5 @@ body {
     background: green;
 }
 
-#error {
-    color: white;
-    background: red;
-}
+
 </style>
