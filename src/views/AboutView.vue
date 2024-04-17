@@ -20,6 +20,11 @@
       </p>
 
     </v-container>
+  <v-container >
+
+    <img v-bind:src="require('@/assets/Tool Tip.png')" />
+
+  </v-container>
 
 
   
@@ -28,6 +33,7 @@
 
   
 </template>
+
 
 <style> 
 .about
@@ -48,6 +54,10 @@ h1
 
 .osage-plains
 { 
+  text-align: left;
+}
+.tip1
+{
   text-align: left;
 }
 </style>
