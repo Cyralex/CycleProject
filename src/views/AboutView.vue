@@ -22,7 +22,7 @@
     </v-container>
   <v-container >
 
-    <img v-bind:src="require('@/assets/Tool Tip.png')" />
+    <img v-bind:src="require('@/assets/toolTip.png')"/>
 
   </v-container>
 
