@@ -1,3 +1,5 @@
+<!-- This file contains the code for the CardMap on the homepage -->
+<!-- It displays the route given by the route prop -->
 <template>
       <div style="height: 200px; width: auto">
         <l-map ref="map" v-model:zoom="zoom" :options="mapOptions">

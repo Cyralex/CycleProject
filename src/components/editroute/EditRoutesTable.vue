@@ -1,3 +1,4 @@
+<!-- Contains the data table to be displayed on /edit -->
 <template>
   <v-card>
     <v-card-title>
@@ -273,6 +274,7 @@ let del = async (id) => {
 };
 let add = async () => {};
 let edit = async (id) => {};
+
 let routeName = ref("");
 let routeLength = ref();
 let terrain = ref("");
@@ -287,8 +289,6 @@ let editForm = ref();
 
 //methods
 let submitEdit = async (item) => {
-  console.log(editForm);
-  console.log(item);
   let updatedRoute = {
     id: item.id,
     name: item.name,
@@ -297,7 +297,6 @@ let submitEdit = async (item) => {
     desc: item.desc,
     poi: item.poi,
   };
-  console.log(updatedRoute, "in table", updatedRoute.id);
   routeStore.updateRoute(updatedRoute);
 };
 
@@ -357,7 +356,6 @@ let handleFile = () => {
             };
             count++;
           }
-          console.log(elevArr);
           //get elevation at coord points from backend
           let eresponse = await fetch(
             `https://api.open-elevation.com/api/v1/lookup`,
@@ -371,7 +369,6 @@ let handleFile = () => {
           );
 
           eresponse = await eresponse.json();
-          console.log(eresponse);
           //elevation gain
           elevArr = eresponse.results;
           let egain = 0;

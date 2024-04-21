@@ -1,3 +1,4 @@
+<!-- This file contains the design for the route card on the homepage -->
 <template>
   <v-container>
     <router-link class="cardlink" :to="'/route/' + route.id">
