@@ -1,6 +1,6 @@
 <template>
   <v-container class="poi">
-    <strong class="text-decoration-bold">Points of Interstk</strong>
+    <strong class="text-decoration-bold">Points of Interst</strong>
     <p>
       {{ route?.poi }}
     </p>
