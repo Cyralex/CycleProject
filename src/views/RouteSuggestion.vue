@@ -17,7 +17,6 @@ function onVerify(tokenStr, ekey) {
     verified.value = true;
     token.value = tokenStr;
     eKey.value = ekey;
-    console.log(`Callback token: ${tokenStr}, ekey: ${ekey}`);
     expired.value = false; 
 }
 function onExpire() {
@@ -67,7 +66,6 @@ function onError(err) {
       // handle file once uploaded 
       handleFile() {
         this.file = this.$refs.file.files[0];
-        console.log(this.file);
         
       },
       
@@ -77,7 +75,6 @@ function onError(err) {
 
         const blob = new Blob([this.file], { type: "text/plain" });
         const text = await blob.text();
-        console.log(text);
         
 
        /* const formData = new FormData();
@@ -125,7 +122,6 @@ function onError(err) {
               this.file,
               this.name
             );       
-            console.log(response);   
               
           if (response.status === 200){
             this.success = true;

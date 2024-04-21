@@ -15,7 +15,6 @@ function onVerify(tokenStr, ekey) {
     verified.value = true;
     token.value = tokenStr;
     eKey.value = ekey;
-    console.log(`Callback token: ${tokenStr}, ekey: ${ekey}`);
 }
 function onExpire() {
     verified.value = false;
