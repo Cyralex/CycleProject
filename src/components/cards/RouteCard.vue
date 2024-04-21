@@ -1,7 +1,11 @@
 <!-- This file contains the design for the route card on the homepage -->
 <template>
   <v-container>
-    <router-link class="cardlink" :to="'/route/' + route.id">
+    <router-link
+      @click="scrollToTop()"
+      class="cardlink"
+      :to="'/route/' + route.id"
+    >
       <v-card class="mx-auto" max-width="375" max-height="500">
         <CardMap :route="route" cover />
 
@@ -31,6 +35,11 @@ export default {
     return {
       link: "/route/" + this.route.id,
     };
+  },
+  methods: {
+    scrollToTop() {
+      window.scrollTo(0, 0);
+    },
   },
   components: {
     CardMap,
