@@ -1,10 +1,10 @@
 <template>
-  <div class="desc">
-    <strong class="text-decoration-bold">Points of interest</strong>
+  <v-container class="poi">
+    <strong class="text-decoration-bold">Points of Interstk</strong>
     <p>
       {{ route?.poi }}
     </p>
-  </div>
+  </v-container>
 </template>
 
 <script>
