@@ -18,7 +18,9 @@
       :search="search"
     >
       <template #item.name="{ item }">
-        <router-link :to="'/route/' + item.id" @click="handleClick"
+        <router-link
+          @click="scrollToTop()"
+          :to="'/route/' + item.id"
           ><!-- eventually to route page -->
           {{ item.name }}
         </router-link>
@@ -84,7 +86,9 @@ let headers = reactive([
 const routeStore = useRouteStore();
 const { getRoutes } = storeToRefs(routeStore);
 let routes = computed(() => routeStore.getRoutes);
-
+let scrollToTop = () => {
+  window.scrollTo(0, 0);
+};
 let downloadGPX = async (file, routeName) => {
   //convert from base64 to plain text
   file = atob(file);
