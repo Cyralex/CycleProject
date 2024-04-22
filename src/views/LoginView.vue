@@ -25,6 +25,7 @@
         ></v-text-field>
         <v-btn type="submit" flat>Submit</v-btn>
       </v-form>
+      <router-link :to="'/forgot'">Forgot password?</router-link>
     </v-col>
   </v-row>
 </template>

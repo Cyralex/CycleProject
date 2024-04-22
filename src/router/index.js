@@ -55,7 +55,9 @@ const routes = [
       requiresAuth: true,
     },
     component: function () {
-      return import(/* webpackChunkName: "edit" */ "../views/EditRouteView.vue");
+      return import(
+        /* webpackChunkName: "edit" */ "../views/EditRouteView.vue"
+      );
     },
   },
 
@@ -64,6 +66,15 @@ const routes = [
     name: "Login",
     component: function () {
       return import(/* webpackChunkName: "login" */ "../views/LoginView.vue");
+    },
+  },
+  {
+    path: "/forgot",
+    name: "ForgotPW",
+    component: function () {
+      return import(
+        /* webpackChunkName: "forgot" */ "../views/ForgotPWView.vue"
+      );
     },
   },
 
