@@ -26,18 +26,29 @@ const emailRules = reactive([
 ]);
 
 const submitForm = async () => {
-  let valid = await form.validate();
-  if (valid) {
-    //ask backend if email is correct
 
-    if (true==true ) {
+    //ask backend if email is correct
+    let reqObj = {
+      email: email.value,
+    };
+    let response = await fetch(
+      `${process.env.VUE_APP_BASE_URL}/v1/email/validate`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(reqObj),
+      }
+    );
+    response = await response.json();
+    console.log("validate res from be", response);
+    if (response.valid == true) {
       console.log("email correct");
     } else {
       console.log("incorrect");
     }
-  } else {
-    console.log("not valid");
-  }
+
 };
 </script>
 
