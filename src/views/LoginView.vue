@@ -1,3 +1,4 @@
+<!-- this is the login page for the admin, which sends a reques to the backend to check creds -->
 <template>
   <div style="display: flex; justify-content: center">
     <v-btn @click="logout" flat>Logout</v-btn>

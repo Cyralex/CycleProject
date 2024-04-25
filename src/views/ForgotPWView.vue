@@ -1,3 +1,5 @@
+<!-- this file implements the forgot password page, which sends a request to the backend to 
+generate a new password  -->
 <template>
   <v-row justify="center">
     <v-col cols="12" sm="8" md="6" lg="4" class="d-flex align-center">

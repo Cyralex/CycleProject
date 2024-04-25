@@ -1,3 +1,5 @@
+<!--  this file implements the table of including informaiton about length, terrain, difficulty, and 
+elevation gain for the detailed route view -->
 <template>
   <v-table class="d-none d-lg-block">
     <thead>

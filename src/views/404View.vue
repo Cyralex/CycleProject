@@ -1,3 +1,4 @@
+<!-- this file is the 404 error page for when an error occurs -->
 <template>
   <v-row>
     <v-container> </v-container>

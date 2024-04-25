@@ -1,3 +1,4 @@
+<!-- contains the logic for the footer of the website using the router -->
 <template>
   <v-footer class="footer">
     <v-row justify="center" no-gutters>

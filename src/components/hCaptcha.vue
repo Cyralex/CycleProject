@@ -1,3 +1,4 @@
+<!--  thie file implements the hCaptcah check box and challenge to verify the user is not a bot -->
 <script setup>
 import { ref } from "vue";
 import VueHcaptcha from "@hcaptcha/vue3-hcaptcha";

@@ -1,3 +1,4 @@
+<!-- this file implements the map component that is used to display routes -->
 <template>
   <v-container fluid class="mapContainer">
     <div class="map">

@@ -1,3 +1,4 @@
+<!-- this file contains the description for the detailed route view -->
 <template>
    <v-container class="desc">
         <strong class="text-decoration-bold">Description</strong>
