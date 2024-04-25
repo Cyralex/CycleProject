@@ -1,9 +1,11 @@
 <template>
   <v-row justify="center">
-    <v-btn @click="logout" flat>Logout</v-btn>
+    <v-col cols="12" sm="10" md="8" lg="6" xl="4" class="text-center">
+      <v-btn @click="logout" flat>Logout</v-btn>
+    </v-col>
   </v-row>
   <v-row justify="center">
-    <v-col cols="6">
+    <v-col cols="12" sm="10" md="8" lg="6" xl="4">
       <EditRoutesTable />
     </v-col>
   </v-row>

@@ -1,6 +1,6 @@
 <template>
   <v-row justify="center">
-    <v-col cols="12" sm="8" md="6" lg="4" class="d-flex align-center">
+    <v-col cols="12" sm="10" md="8" lg="6" xl="4" class="d-flex align-center">
       <v-form
         class="routeForm"
         validate-on="submit lazy"
@@ -20,24 +20,25 @@
           class="mb-4"
         ></v-text-field>
         <v-row justify="center">
-          <v-col>
-            <v-btn type="submit" class="mt-4">Submit</v-btn>
+          <v-col cols="12" sm="6" md="4">
+            <v-btn type="submit" class="mt-4" block>Submit</v-btn>
           </v-col>
         </v-row>
       </v-form>
     </v-col>
   </v-row>
-
   <v-row justify="center">
-    <div style="padding-top: 50px" v-if="emailValidity">
-      <v-alert
-        class="success"
-        type="success"
-        title="New password sent!"
-        text="A new password has been sent to the admin email"
-      >
-      </v-alert>
-    </div>
+    <v-col cols="12" sm="10" md="8" lg="6" xl="4">
+      <div style="padding-top: 50px" v-if="emailValidity">
+        <v-alert
+          class="success"
+          type="success"
+          title="New password sent!"
+          text="A new password has been sent to the admin email"
+        >
+        </v-alert>
+      </div>
+    </v-col>
   </v-row>
 </template>
 

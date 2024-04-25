@@ -3,9 +3,9 @@
     <v-btn @click="logout" flat>Logout</v-btn>
   </div>
   <v-row justify="center">
-    <v-col cols="3">
+    <v-col cols="12" sm="8" md="6" lg="4" xl="3">
       <v-form class="form" @submit.prevent="submit">
-        <h1>Login</h1>
+        <h1 class="text-center">Login</h1>
         <v-text-field
           label="Username"
           variant="outlined"
