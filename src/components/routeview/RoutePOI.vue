@@ -1,3 +1,4 @@
+<!-- this file defines the POI field for the detailed route view -->
 <template>
   <v-container class="poi">
     <strong class="text-decoration-bold">Points of Interest</strong>

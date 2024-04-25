@@ -1,3 +1,4 @@
+<!-- this filed implements the map for the detailed route view -->
 <template>
       <div class="map" v-if="route.route">
         <div style="height: 400px; width: auto">

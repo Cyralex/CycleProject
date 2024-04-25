@@ -1,3 +1,5 @@
+<!-- this is the edit route view for the admin, which uses the edit routes table component 
+and allows for the admin to logout -->
 <template>
   <v-row justify="center">
     <v-col cols="12" sm="10" md="8" lg="6" xl="4" class="text-center">

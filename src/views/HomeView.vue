@@ -1,3 +1,5 @@
+<!-- this is the home page view, including filters for the route cards, the route cards,
+and the data table componenet -->
 <template>
   <v-container>
     <Map />

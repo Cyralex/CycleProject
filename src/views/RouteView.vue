@@ -1,3 +1,5 @@
+<!-- this is the route view page, which uses the components for the detailed route view 
+to display information about a single route  -->
 <template>
   <div>
     <div class="" v-if="route">

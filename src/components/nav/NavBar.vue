@@ -1,3 +1,4 @@
+<!-- this file implements the NavBar using the router  -->
 <template>
   <nav :elevation="24">
     <v-container justify-center class="navbar">

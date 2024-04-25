@@ -1,3 +1,4 @@
+<!-- This is the about page, containing a tool tip as an image -->
 <template>
   <v-container class="about">
     <v-container class="general-info">

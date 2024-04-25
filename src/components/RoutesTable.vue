@@ -1,3 +1,4 @@
+<!-- this file implements the routes data table at the bottom of the home screen -->
 <template>
   <v-card>
     <v-card-title>

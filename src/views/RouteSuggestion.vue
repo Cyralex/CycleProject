@@ -1,4 +1,5 @@
-
+<!-- this is the route suggestion page, which includes a form users can submit. 
+the user must upload a gpx file with a route name, and an email is generated and sent to the admin -->
 <script setup>
 import { ref } from "vue";
 import VueHcaptcha from "@hcaptcha/vue3-hcaptcha";
